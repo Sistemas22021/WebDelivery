@@ -1,5 +1,7 @@
 import logo from '../../assets/img/p_2.png';
 import { useTranslation } from 'react-i18next';
+import { BrowserRouter, Route, Link, Switch } from 'react-router-dom';
+
 
 const NavBar = () => {
   const [t, i18n] = useTranslation('global');
@@ -53,10 +55,10 @@ const NavBar = () => {
         <div className=" navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal">
             <li>
-              <a className="rounded"> {t('navbar.home')} </a>{' '}
+              <Link to="/" className="rounded"> {t('navbar.home')} </Link>{' '}
             </li>
             <li>
-              <a className="rounded">{t('navbar.products')}</a>{' '}
+              <Link to="/map" className="rounded">{t('navbar.products')}</Link>{' '}
             </li>
             <li>
               <a className="rounded">{t('navbar.contact')}</a>

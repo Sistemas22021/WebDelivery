@@ -1,8 +1,11 @@
 import Formulario from './Formulario';
-
 import NavBar from './NavBar';
 import Map from './Map';
 import {useTranslation} from "react-i18next";
+
+
+import Home from './Home';
+import Products from './Products';
 
 const Order = () => { 
   const [t , i18n] = useTranslation("global");
@@ -41,7 +44,16 @@ const Order = () => {
              <NavBar/>
           </div>
           <div className='border z-0 fixed components'>
-             <Map/>
+         
+        {/*Prueba del react router */}
+    
+
+
+
+
+        {/*Prueba del react router */}
+
+
           </div>
         
         </div>

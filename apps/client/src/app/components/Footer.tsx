@@ -19,6 +19,7 @@ const [t] = useTranslation("global");
         <div className="wave"></div>
       </div>
 
+
       <footer className="footer z-40 footer-center p-2 bg-neutral text-base-content rounded">
         <div className="grid grid-flow-col mt-1 gap-4">
           <a className="link link-hover">{t("navbar.home")}</a>
