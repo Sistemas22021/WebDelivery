@@ -89,7 +89,7 @@ export class SenderOrderMail implements SenderOrder{
         const email_options = this.buildEmailOptions(this.transporter_email, order.email, subject, template);
         
         const result = await this.transporter.sendMail(email_options);
-        console.log({result});
+        
         return result.rejected.length === 0 ? true : false;
     }
 

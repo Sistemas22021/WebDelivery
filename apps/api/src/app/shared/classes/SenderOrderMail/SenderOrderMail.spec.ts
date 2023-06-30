@@ -10,7 +10,7 @@ describe('Test the sender order mail', () => {
     const actualTransport = await sender.makeTransport();
     jest
       .spyOn(actualTransport, 'sendMail')
-      .mockResolvedValue(() => ({  rejected: [] }));
+      .mockResolvedValue({  rejected: [] });
     jest.spyOn(sender, 'makeTransport').mockResolvedValue(actualTransport);
   });
 
