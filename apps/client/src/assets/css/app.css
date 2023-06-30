@@ -11,9 +11,11 @@
   background-color: #e2e5e9 !important;
 }
 
-.f {
+
+/*fondo es para que cuando la pantalla llegue a peguena se quite el fondo gris y se quede en negro*/
+.fondo {
   padding: 2em;
-  background-color: #383838c7 !important;
+  background-color: #030303c7 !important;
 }
 
 form .mi-form {
@@ -45,13 +47,13 @@ form .mi-form {
   margin-top: 10px;
 }
 
+/*Fondo del formulario*/
 .card-body {
   background-color: #676767a7 !important;
 }
 
-
-.btn-tradu{
- display: none;
+.btn-tradu {
+  display: none;
 }
 
 @media screen and (min-width: 400px) and (max-width: 769px) {
@@ -63,13 +65,12 @@ form .mi-form {
     width: 100% !important;
   }
 
-  .btn-tradu{
+  .btn-tradu {
     top: 0;
     left: 0;
     width: auto !important;
     position: absolute;
     display: block;
-  
   }
 }
 
@@ -78,23 +79,23 @@ form .mi-form {
   .mi-div {
     display: none !important;
   }
-  .f {
+  .fondo {
     background-color: #08080800 !important;
     border: none !important;
   }
 
-  .btn-tradu{
+  .btn-tradu {
     margin-top: -40px;
     position: absolute;
     top: 0;
     left: 0;
     display: block;
   }
-  .btn-tradu .u{
+  .btn-tradu .u {
     background-color: rgb(220, 216, 209) !important;
     color: #080808;
   }
-  .quit{
+  .quit {
     display: none;
   }
 
@@ -131,10 +132,10 @@ form .mi-form {
 
 /*Efecto flotando*/
 .lazamania {
-  margin-top: 50px;
+  margin-top: 10px;
   width: 400px;
   animation-name: floating;
-  animation-duration: 3s;
+  animation-duration: 4s;
   animation-iteration-count: infinite;
   animation-timing-function: ease-in-out;
 }
@@ -144,10 +145,10 @@ form .mi-form {
     transform: translate(0, 0px);
   }
   50% {
-    transform: translate(0, 15px);
+    transform: translate(0, -15px);
   }
   100% {
-    transform: translate(0, -0px);
+    transform: translate(0, 0px);
   }
 }
 
@@ -198,21 +199,6 @@ form .mi-form {
   box-shadow: 10px 5px 5px rgb(60, 60, 60);
 }
 
-.Nav {
-  height: 75px !important;
-}
-
-
-
-.components {
-  width: 50% !important;
-  margin-left: 30px !important;
-  height: 75vh !important;
-  margin-top: 100px;
-  padding: 5px !important;
-  background: #8d1804c3;
-  overflow: hidden;
-}
 .quit {
   z-index: 1 !important;
   margin-top: -20px;
@@ -222,4 +208,16 @@ form .mi-form {
 }
 footer {
   position: absolute !important;
+}
+
+.foot {
+  height: 10vh;
+  bottom: 0 !important;
+}
+.low {
+  margin-top: 50px;
+}
+
+.info-map {
+  margin-top: 60px;
 }

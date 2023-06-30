@@ -9,8 +9,7 @@ const [t] = useTranslation("global");
 
   return (
     <>
-      <div className="quit w-full  text-neutral  bg-info"></div>
-      <br />
+     
       <div className="bg-warning grid place-content-center containert">
         <div className=" place-items-center platillos">
           <p className="font-bold mb-5 text-neutral text-xl"> {t("footer.foot")} </p>

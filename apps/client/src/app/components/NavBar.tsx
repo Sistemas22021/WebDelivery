@@ -1,6 +1,5 @@
 import logo from '../../assets/img/p_2.png';
 import { useTranslation } from 'react-i18next';
-import { BrowserRouter, Route, Link, Switch } from 'react-router-dom';
 
 
 const NavBar = () => {
@@ -9,7 +8,7 @@ const NavBar = () => {
   return (
     <>
       {/* Menu Tlf */}
-      <div className="navbar rounded bg-neutral ">
+      <div className="navbar bg-accent rounded  ">
         <div className="flex-1 ">
           <div className="dropdown">
             <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -55,10 +54,10 @@ const NavBar = () => {
         <div className=" navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal">
             <li>
-              <Link to="/" className="rounded"> {t('navbar.home')} </Link>{' '}
+              <a className="rounded"> {t('navbar.home')} </a>
             </li>
             <li>
-              <Link to="/map" className="rounded">{t('navbar.products')}</Link>{' '}
+              <a className="rounded">{t('navbar.products')}</a> 
             </li>
             <li>
               <a className="rounded">{t('navbar.contact')}</a>
@@ -66,7 +65,7 @@ const NavBar = () => {
           </ul>
         </div>
 
-        <div className="navbar-end">
+        <div className="navbar-end w-1/3">
           <ul className="menu menu-horizontal bg-base-100 rounded-box ">
           <li><a className="tooltip" data-tip="England" onClick={() => i18n.changeLanguage('en')} >🇬🇧</a></li>
           <li><a className="tooltip" data-tip="Espanol" onClick={() => i18n.changeLanguage('es')}>🇪🇸</a></li>

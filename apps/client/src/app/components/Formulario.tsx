@@ -242,13 +242,13 @@ function Formulario() {
 
             <div
               onClick={(e) => BotonAgregarManejador(e, platillo)}
-              className=" mx-1 p-2 btn-circle btn text-2xl btn-ghost"
+              className=" ml-5 pb-1 btn-circle btn text-2xl btn-ghost"
             >
               +
             </div>
             <div
               onClick={(e) => BotonRemoverManejador(e, platillo)}
-              className=" mx-1 btn-circle  text-2xl  btn btn-ghost "
+              className=" ml-5 btn-circle pb-1   text-2xl  btn btn-ghost "
             >
               -
             </div>
