@@ -8,6 +8,8 @@ import { NestFactory } from '@nestjs/core';
 
 import { AppModule } from './app/app.module';
 import { ConfigService } from '@nestjs/config';
+import { SwaggerModule } from '@nestjs/swagger';
+import swaggerConfig, { swaggerOptions } from './app/config/swagger.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -17,6 +19,9 @@ async function bootstrap() {
   const port = configService.get('server.port');
 
 
+
+
+
   app.useGlobalPipes(new ValidationPipe({
     errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
     transform:true
@@ -24,6 +29,8 @@ async function bootstrap() {
   app.enableCors();
   app.setGlobalPrefix(globalPrefix);
   
+  SwaggerModule.setup(globalPrefix, app, swaggerConfig(app),swaggerOptions);
+
   await app.listen(port);
 
 
