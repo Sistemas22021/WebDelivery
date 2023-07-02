@@ -16,6 +16,6 @@ export abstract class Dish {
         return this.name;
     }
     getDescription(): string {
-        return this.getDescription();
+        return this.description;
     }
 }

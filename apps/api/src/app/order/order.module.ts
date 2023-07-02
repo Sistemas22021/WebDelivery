@@ -3,6 +3,7 @@ import { OrderController } from './order.controller';
 import { OrderService } from './order.service';
 import { FetchDishFromArray } from '../shared/producer/product.producer';
 import { SenderOrderMail } from '../sender/classes/sender-order-email.class';
+import { OrderCreatedListener } from './listeners/order-created.listener';
 
 @Module({
   controllers: [OrderController],
@@ -13,7 +14,8 @@ import { SenderOrderMail } from '../sender/classes/sender-order-email.class';
       provide: 'SenderOrder',
       useClass: SenderOrderMail,
     
-    }
+    },
+    OrderCreatedListener
   ]
 })
 export class OrderModule {}

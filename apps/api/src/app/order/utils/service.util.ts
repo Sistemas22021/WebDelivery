@@ -63,3 +63,4 @@ export function MapOrderToEmailData(order: Order): OrderData {
         order: string_order.join("")
     };
 }
+

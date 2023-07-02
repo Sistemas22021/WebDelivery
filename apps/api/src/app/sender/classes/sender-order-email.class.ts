@@ -98,7 +98,7 @@ export class SenderOrderMail implements SenderOrder{
         }
     }
 
-    async sendOrder(order: OrderData): Promise<SenderResponse> {
+    async send(order: OrderData): Promise<SenderResponse> {
         
         
         await this.initializeTransporter()
