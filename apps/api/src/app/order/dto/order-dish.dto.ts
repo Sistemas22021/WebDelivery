@@ -7,8 +7,8 @@ export class OrderDishDto {
 
 
     @ApiProperty({example: 1})    
-    @IsNumber()
-    dish_id: number;
+    //@IsNumber()
+    dish_id: number | string;
 
 
     @ApiProperty({example: 5})

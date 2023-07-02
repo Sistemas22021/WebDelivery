@@ -1,13 +1,12 @@
 import SMTPTransport from "nodemailer/lib/smtp-transport";
-import { SenderOrder } from "../../interfaces/SenderOrder.interface";
-import { Order } from "../Order.class";
-
+import { SenderOrder } from "../interfaces/sender-order.interface";
 import { Transporter, createTransport } from "nodemailer";
 import { Injectable, InternalServerErrorException } from "@nestjs/common";
 import { MailOptions } from "nodemailer/lib/json-transport";
-import { orderConfirmationTemplate, receivedOrderTemplate } from "../../templates/received-order.template";
-
-
+import orderConfirmationTemplate from "../email-templates/order-confirmation.template";
+import receivedOrderTemplate from "../email-templates/received-order.template";
+import { OrderData } from "../interfaces/order-data.interface";
+import { SenderResponse } from "../interfaces/sender-response.interface";
 
 @Injectable()
 export class SenderOrderMail implements SenderOrder{
@@ -71,7 +70,7 @@ export class SenderOrderMail implements SenderOrder{
 
 
     //Envia el correo avisando que se ha realizado una orden al correo del restaurante.
-    private async sendOrderToCompany(order: Order): Promise<boolean>{
+    private async sendOrderToCompany(order: OrderData): Promise<boolean>{
 
         const template = receivedOrderTemplate(order);
         const subject = `Nueva orden generada`;
@@ -83,27 +82,34 @@ export class SenderOrderMail implements SenderOrder{
     }
 
     //Envia correo al cliente para confirmar su pedido.
-    private async sendConfirmationOrderToClient(order: Order): Promise<boolean>{
+    private async sendConfirmationOrderToClient(order: OrderData): Promise<boolean>{
         const template = orderConfirmationTemplate(order);
         const subject = "Los Pollos Hermanos - Confirmacion de Pedido";
-        const email_options = this.buildEmailOptions(this.transporter_email, order.email, subject, template);
+        const email_options = this.buildEmailOptions(this.transporter_email, order.client_email, subject, template);
         
         const result = await this.transporter.sendMail(email_options);
-        return result.rejected.length === 0 ? true : false;
+        return result.rejected.length === 0;
     }
 
-    async sendOrder(order: Order): Promise<void> {
+    makeResponse(message: string, success: boolean): SenderResponse {
+        return {
+            message, 
+            success
+        }
+    }
+
+    async sendOrder(order: OrderData): Promise<SenderResponse> {
         
         
         await this.initializeTransporter()
-        if(!this.transporter) throw new InternalServerErrorException();
+        if(!this.transporter) return this.makeResponse('Transporter failed', false);
 
         const order_received = await this.sendOrderToCompany(order);
 
-        if(!order_received) throw new InternalServerErrorException();
+        if(!order_received) return this.makeResponse('Order has not been sent', false);
 
         await this.sendConfirmationOrderToClient(order);
 
-        return;
+        return this.makeResponse('Order successfully placed', true);
     }
 }

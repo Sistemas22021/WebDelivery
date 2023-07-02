@@ -1,6 +1,5 @@
 
-import { Dish } from "../classes/Dish.class"
-
+import { DishInterface } from "../../dish/interfaces/dish.interface"
 export interface FetchDish {
-    fetch(): Dish[] 
+    fetch(): DishInterface[] 
 }

@@ -1,9 +1,9 @@
-import {Injectable, InternalServerErrorException, UnprocessableEntityException } from '@nestjs/common';
+import {Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { ReceivedOrderDto } from './dto/received-order.dto';
-import { Order } from '../shared/classes/Order.class';
 import { FetchDishFromArray } from '../shared/producer/product.producer';
-import { OrderDish } from '../shared/classes/OrderDish.class';
-import { SenderOrderMail } from '../shared/classes/SenderOrderMail/SenderOrderMail.class';
+import { MapOrder, MapOrderDishElements, MapOrderToEmailData, checkIfDishesExists } from './utils/service.util';
+import { OrderDish } from './classes/order-dish.class';
+import { SenderOrder } from '../sender/interfaces/sender-order.interface';
 
 @Injectable()
 export class OrderService {
@@ -11,35 +11,23 @@ export class OrderService {
 
     constructor(
         private dishProducer: FetchDishFromArray,
-        private senderOrder: SenderOrderMail
+        @Inject('SenderOrder')
+        private senderOrder: SenderOrder
 
     ) {}
 
     async createOrder(orderDto: ReceivedOrderDto){
 
-    
         const dishes_array = this.dishProducer.fetch();
 
-        const new_order = new Order(orderDto.client_name,orderDto.client_id,orderDto.email,orderDto.address);
+        if (!checkIfDishesExists(orderDto.dishes, dishes_array)) throw new NotFoundException();
+        
+        const dishes: OrderDish[] = MapOrderDishElements(orderDto.dishes, dishes_array);
+        const order = MapOrder(orderDto, dishes);
 
-        const dishes = orderDto.dishes.map(dish => {
-            const aux = dishes_array.find(element => element.dish_id === dish.dish_id);
-            if(!aux) throw new UnprocessableEntityException();
-            return new OrderDish(aux,dish.count);
-        })
-        new_order.setDishes(dishes);
+        await this.senderOrder.sendOrder(MapOrderToEmailData(order));
 
-        if(new_order.getBill() === orderDto.order_bill) {
-            try {
-                await this.senderOrder.sendOrder(new_order);    
-            } catch (error) {
-                throw new InternalServerErrorException();
-            }
-            return;
-        };
-
-        throw new UnprocessableEntityException();
-
+        return "Enviado exitosamente!";
     }
 
 }
