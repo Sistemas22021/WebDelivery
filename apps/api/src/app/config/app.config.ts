@@ -6,9 +6,11 @@ interface ServerConfig {
     prefix: string;
 
 }
+
 interface AppConfig {
-    server: ServerConfig
+    server: ServerConfig,
 }
+
 
 export default (): AppConfig => ({
 

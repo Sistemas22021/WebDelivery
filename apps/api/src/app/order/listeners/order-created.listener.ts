@@ -1,8 +1,11 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { Inject, Injectable, Logger } from "@nestjs/common";
 import { OnEvent } from "@nestjs/event-emitter";
 import { SenderOrder } from "../../sender/interfaces/sender-order.interface";
-import { MapOrderToEmailData } from "../utils/service.util";
+import { MapOrderCollection, MapOrderToEmailData } from "../utils/service.util";
 import { Order } from "../classes/order.class";
+import { InjectRepository } from "nestjs-fireorm";
+import { OrderCollection } from "../collections/order.collection";
+import { BaseFirestoreRepository } from "fireorm";
 
 @Injectable()
 export class OrderCreatedListener { 
@@ -10,6 +13,8 @@ export class OrderCreatedListener {
     constructor(
         @Inject('SenderOrder')
         private senderOrder: SenderOrder,
+        @InjectRepository(OrderCollection)
+        private orderCollection: BaseFirestoreRepository<OrderCollection>
     ) {}
 
     @OnEvent('order.created')
@@ -17,12 +22,17 @@ export class OrderCreatedListener {
         const email_order = MapOrderToEmailData(order);
         await this.senderOrder.send(email_order);
 
-        console.log("Email sent.");
     }
 
     @OnEvent('order.created')
     async saveOrderInFireStore(order: Order)  {
-        console.log(`Saving into firestore`);
+        try {
+            const order_storage = MapOrderCollection(order);
+            await this.orderCollection.create(order_storage);
+
+        } catch (error) {
+            Logger.log("Hubo un error almacenando la orden en fire storage.");
+        }   
     }
 
     @OnEvent('order.created')

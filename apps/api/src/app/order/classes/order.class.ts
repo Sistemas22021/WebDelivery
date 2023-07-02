@@ -14,7 +14,6 @@ interface CreateOrderInterface {
     client: Client;
 }
 
-6
 export class Order {
 
     private id: string;

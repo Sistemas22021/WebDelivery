@@ -6,6 +6,8 @@ import { OrderDishDto } from "../dto/order-dish.dto";
 import { ReceivedOrderDto } from "../dto/received-order.dto";
 
 import { OrderData } from "../../sender/interfaces/order-data.interface";
+import { OrderCollection } from "../collections/order.collection";
+import { OrderDishCollectionInterface } from "../interfaces/order-dish.interface";
 export function checkIfDishesExists(current: OrderDishDto[], dishes: DishInterface[]): boolean {
     
     for(const dish_dto of current) {
@@ -64,3 +66,23 @@ export function MapOrderToEmailData(order: Order): OrderData {
     };
 }
 
+
+export function MapOrderDishCollection(dish: OrderDish): OrderDishCollectionInterface {
+
+    return {
+        current_price: dish.getCurrentPrice(),
+        dish_bill: dish.getDishBill(),
+        dish_id: dish.getId(),
+        quantity: dish.getQuantitiy()
+    }
+}
+export function MapOrderCollection(order: Order): OrderCollection {
+    return {
+        id: order.getId(),
+        client: order.getClient(),
+        generated_at: order.getDate().toISOString(),
+        status: order.getStatus(),
+        order_bill: order.getBill(),
+        dishes: order.getDishes().map(dish => MapOrderDishCollection(dish))
+    }
+}
