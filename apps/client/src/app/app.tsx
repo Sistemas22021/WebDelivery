@@ -1,5 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { useEffect, useState } from 'react';
+
 import styles from './app.module.css';
 import NxWelcome from './nx-welcome';
 import '../assets/css/app.css'
@@ -11,8 +12,11 @@ export function App() {
   
   return (
    <>
-      <Order/>
-      <Footer/>
+      
+        <Order/>
+        <Footer/>
+    
+      
    </>
   );
 }

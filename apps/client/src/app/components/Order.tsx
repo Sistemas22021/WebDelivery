@@ -1,3 +1,6 @@
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
+
 import Formulario from './Formulario';
 import NavBar from './NavBar';
 import {useTranslation} from "react-i18next";
@@ -39,7 +42,7 @@ const Order = () => {
           
           <div className=' z-0 rounded text-neutral w-full p-2 '>
           
-          <Home/>
+        <Home></Home>
 
           </div>
         
