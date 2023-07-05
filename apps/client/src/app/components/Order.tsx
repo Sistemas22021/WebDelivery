@@ -1,8 +1,8 @@
 import Formulario from './Formulario';
-
 import NavBar from './NavBar';
 import Map from './Map';
 import {useTranslation} from "react-i18next";
+import OrderAux from './Order/Order';
 
 const Order = () => { 
   const [t , i18n] = useTranslation("global");
@@ -32,7 +32,8 @@ const Order = () => {
           {t("form.title")}
           </h1> 
           <br />
-          <Formulario />
+          {/*<Formulario />*/}
+          <OrderAux />
         </div>
 
         <div className="grid  ml-2 w-2/3 card mt-1  rounded-box   mi-div">
