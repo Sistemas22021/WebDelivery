@@ -22,5 +22,15 @@ export default (form: FormData, orderDishes: OrderDishI[]): OutGoingOrderI => {
 
 
 function MapOutgoingOrderDish(orderDishes: OrderDishI[]): OutGoingOrderDishI[] {
-    return orderDishes.map(order_dish => ( { dish_id: Number(order_dish.dish.dish_id) , count: order_dish.quantity} ));
+    return orderDishes.map(order_dish => {
+        
+        let dish_id: string | number;
+        
+        if (Number.isNaN(Number.parseInt(order_dish.dish.dish_id)))
+            dish_id = String(order_dish.dish.dish_id)
+        else 
+            dish_id = Number(order_dish.dish.dish_id)
+
+        return { dish_id , count: order_dish.quantity}
+    });
 }

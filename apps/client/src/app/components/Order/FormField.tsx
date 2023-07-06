@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import FormFieldPropsI from "./interfaces/FormFieldProps.interface";
 
 export default function FormField(prop: FormFieldPropsI) {
 
     const [value, setValue] = useState<string>('');
 
-    function onChangeHandler(e: any) {
+    function onChangeHandler(e: ChangeEvent<HTMLInputElement>) {
         setValue(e.target.value);
     }
 
@@ -21,6 +21,7 @@ export default function FormField(prop: FormFieldPropsI) {
             placeholder={prop.placeholder}
             className="input shadow-lg input-ghost w-full"
             onChange={onChangeHandler}
+            disabled={prop.disabled}
             value={value}
             />
         </div>

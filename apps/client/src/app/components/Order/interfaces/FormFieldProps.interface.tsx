@@ -4,4 +4,5 @@ export default interface FormFieldPropsI {
     name: string;
     content: string;
     placeholder?: string;
+    disabled?: boolean;
 }

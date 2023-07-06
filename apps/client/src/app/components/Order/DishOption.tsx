@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { DishI } from "../../interfaces/Dish.interface";
 import { OrderDishI } from "../../interfaces/OrderDish.interface";
 import AddDishToOrdenUtil from "./utils/AddDishToOrden.util";
@@ -12,16 +12,23 @@ export default function DishOption(
   }
 ) {
   
-  
+  const [isMarked, setIsMarked] = useState<boolean>(false);
+
+
   function addHandler() {
-    console.log('add')
     const new_order = AddDishToOrdenUtil(prop.dish,prop.order);
+    if (!isMarked)
+      setIsMarked(true);
     prop.setOrder(new_order);
     
   }
   function removeHandler() {
-    console.log('remove')
     const new_order = RemoveDishFromOrderUtil(prop.dish,prop.order);
+    const is_marked = new_order.find(order_dish => order_dish.dish.dish_id === prop.dish.dish_id)
+
+    if (!is_marked)
+      setIsMarked(false);
+
     prop.setOrder(new_order);
   }
   
@@ -29,7 +36,15 @@ export default function DishOption(
   return (
         <div
             key={prop.dish.dish_id}
-            className=" flex  flex-row text-sm rounded text-start px-2 shadow-lg "
+            className={`
+            flex  flex-row 
+            text-sm text-start 
+            rounded 
+            px-2 
+            shadow-lg
+            ${isMarked && `bg-primary`}`
+            
+          }
           >
             <span className="indicator-item badge badge-success">
               {prop.dish.real_price + '$'}

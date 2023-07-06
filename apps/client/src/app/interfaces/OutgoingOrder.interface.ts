@@ -1,5 +1,5 @@
 export interface OutGoingOrderDishI {
-    dish_id: number;
+    dish_id: number | string;
     count: number;
 }
 
