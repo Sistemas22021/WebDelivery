@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { DishI } from "../../interfaces/Dish.interface";
 import { OrderDishI } from "../../interfaces/OrderDish.interface";
 import AddDishToOrdenUtil from "./utils/AddDishToOrden.util";
@@ -31,7 +31,11 @@ export default function DishOption(
 
     prop.setOrder(new_order);
   }
-  
+  useEffect(() =>{
+    const is_marked = prop.order.find(order_dish => order_dish.dish.dish_id === prop.dish.dish_id)
+    if (is_marked)
+      setIsMarked(true);
+  },[prop.dish.dish_id, prop.order])
   
   return (
         <div

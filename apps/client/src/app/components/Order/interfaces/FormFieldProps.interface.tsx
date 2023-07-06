@@ -5,4 +5,5 @@ export default interface FormFieldPropsI {
     content: string;
     placeholder?: string;
     disabled?: boolean;
+    required?: boolean;
 }

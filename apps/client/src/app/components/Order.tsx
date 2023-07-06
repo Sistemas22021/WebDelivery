@@ -1,4 +1,3 @@
-import Formulario from './Formulario';
 import NavBar from './NavBar';
 import Map from './Map';
 import {useTranslation} from "react-i18next";
@@ -8,9 +7,7 @@ const Order = () => {
   const [t , i18n] = useTranslation("global");
   return (
    
-    <>
-    
-      <div id="main" className="flex p-2 bg-info m-3">
+    <div id="main" className="flex p-2 bg-info m-3">
         
         <div className="grid w-1/2 f card bg-base-300 rounded-box place-items-center h-2/5 mi-form ">
          
@@ -48,7 +45,6 @@ const Order = () => {
         </div>
 
       </div>
-    </>
   );
 };
 export default Order;

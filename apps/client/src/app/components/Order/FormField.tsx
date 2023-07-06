@@ -22,6 +22,7 @@ export default function FormField(prop: FormFieldPropsI) {
             className="input shadow-lg input-ghost w-full"
             onChange={onChangeHandler}
             disabled={prop.disabled}
+            required={prop.required }
             value={value}
             />
         </div>

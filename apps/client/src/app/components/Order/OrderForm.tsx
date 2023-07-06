@@ -22,6 +22,7 @@ export default function OrderForm(props: FormPropsI) {
 
     async function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
+        if(orderDishes.length === 0) return;
         const target: HTMLFormElement = e.currentTarget;
         const formData: FormData = new FormData(target);
 
@@ -29,8 +30,12 @@ export default function OrderForm(props: FormPropsI) {
 
         props.setLoading(true);
         const response = await postOrder(outgoingOrder);
-        props.setLoading(false);
-        setOrderResponse(GetOrderResponseMessage(response));
+        setTimeout(() => {
+            
+            props.setLoading(false);
+            setOrderResponse(GetOrderResponseMessage(response));
+        }, 2000);
+        
     }
 
     useEffect(() => {
@@ -41,18 +46,18 @@ export default function OrderForm(props: FormPropsI) {
         <form onSubmit={handleSubmit} className="w-mi-form w-full font-bold text-info text-lg">
             <div className="flex justify-between">
                 <div className="m-1">
-                    <FormField disabled={props.loading} type='text' id="name" name="name" content={translator('form.name')} placeholder={translator('form.label_name')} />
+                    <FormField required disabled={props.loading} type='text' id="name" name="name" content={translator('form.name')} placeholder={translator('form.label_name')} />
                 </div>
 
                 <div className="m-1">
-                    <FormField disabled={props.loading} type='number' id="identification" name="identification" content={translator('form.id')} placeholder="29333123"/>
+                    <FormField required disabled={props.loading} type='number' id="identification" name="identification" content={translator('form.id')} placeholder="29333123"/>
                 </div>
             </div>
             <div className="w-full">
-                <FormField disabled={props.loading} type='email' id="email" name="email" content={translator('form.email')} placeholder="lospolloshermanos@gmail.com"/>
+                <FormField required disabled={props.loading} type='email' id="email" name="email" content={translator('form.email')} placeholder="lospolloshermanos@gmail.com"/>
             </div>
             <div className="w-full ">
-                <FormField disabled={props.loading} type='text' id="address" name="address" content={translator('form.direction')} placeholder="La Asuncion, Escudo de Armas"/>
+                <FormField required disabled={props.loading} type='text' id="address" name="address" content={translator('form.direction')} placeholder="La Asuncion, Escudo de Armas"/>
             </div>
             <label className="label mt-2 mb-2" htmlFor="pedido">
                 <span className="label-text text-info">{translator('form.order')}</span>
@@ -65,7 +70,7 @@ export default function OrderForm(props: FormPropsI) {
                 }
             </div>
             { !props.loading && <OrderTextArea value={orderString}/>}
-            <div> {orderResponse} </div>
+            <div> { !props.loading && orderResponse} </div>
             <button disabled={props.loading} className="btn btn-outline w-1/2 btn-success mt-4" type="submit">
                 {translator('btn.btn-form')}
             </button>

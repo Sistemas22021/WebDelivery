@@ -6,11 +6,17 @@ const API_URL = `/api/order`;
 
 
 export async function postOrder(OutGoingOrder: OutGoingOrderI): Promise<HttpStatusE> {
+    let status = 500;
+    try {
+        const response = await axios.post(API_URL,OutGoingOrder);
+        status = response.status;
+    } catch (error) {
+        if(axios.isAxiosError(error))
+            status = error.request.status;
+    }
+        
 
-    const response = await axios.post(API_URL,OutGoingOrder);
-    
-
-    switch(response.status){
+    switch(status){
         case 200: return HttpStatusE.SUCCESS;
         case 201: return HttpStatusE.CREATED;
         case 422: return HttpStatusE.UNPROCESSABLE_ENTITY;
