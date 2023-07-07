@@ -4,7 +4,7 @@ import { DishInterface } from "../../dish/interfaces/dish.interface";
 
 
 
-const DISHES: DishInterface[] = [
+export const DISHES: DishInterface[] = [
     {
         //dish_id: '4ce4a06d-f4d4-4649-8fe5-9b9e18f1750c',
         dish_id: "1",
