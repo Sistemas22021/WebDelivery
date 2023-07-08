@@ -1,19 +1,20 @@
-import { OrderDishI } from "../../../interfaces/OrderDish.interface";
-import { OutGoingOrderDishI, OutGoingOrderI } from "../../../interfaces/OutgoingOrder.interface";
+import { OrderDish } from "../interfaces/OrderDish.interface";
+import { OutGoingOrderDish, OutGoingOrder } from "../interfaces/OutgoingOrder.interface";
 import CalculateOrderBillUtil from "../utils/CalculateOrderBill.util";
+import getFormField from "../utils/getFormField.util";
 
 
 
 
 
-export default (form: FormData, orderDishes: OrderDishI[]): OutGoingOrderI => {
+export default (form: FormData, orderDishes: OrderDish[]): OutGoingOrder => {
     
 
     return {
-        client_name: form.get('name')?.valueOf().toString() || '',
-        client_id: form.get('identification')?.valueOf().toString() || '',
-        address: form.get('address')?.valueOf().toString() || '',
-        email: form.get('email')?.valueOf().toString() || '',
+        client_name: getFormField(form,'name'),
+        client_id: getFormField(form,'identification'),
+        address: getFormField(form,'address'),
+        email: getFormField(form,'email'),
         dishes: MapOutgoingOrderDish(orderDishes),
         order_bill: CalculateOrderBillUtil(orderDishes)
     }
@@ -21,7 +22,7 @@ export default (form: FormData, orderDishes: OrderDishI[]): OutGoingOrderI => {
 }
 
 
-function MapOutgoingOrderDish(orderDishes: OrderDishI[]): OutGoingOrderDishI[] {
+function MapOutgoingOrderDish(orderDishes: OrderDish[]): OutGoingOrderDish[] {
     return orderDishes.map(order_dish => {
         
         let dish_id: string | number;

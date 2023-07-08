@@ -1,8 +1,8 @@
-import { DishI } from "../../../interfaces/Dish.interface";
-import { OrderDishI } from "../../../interfaces/OrderDish.interface";
+import { Dish } from "../interfaces/Dish.interface";
+import { OrderDish } from "../interfaces/OrderDish.interface";
 import FindDishInOrderUtil from "./FindDishInOrder.util";
 
-export default (dish: DishI, current_order: OrderDishI[]): OrderDishI[] => {
+export default function removeDishFromOrder (dish: Dish, current_order: OrderDish[]): OrderDish[] {
 
     let aux = [...current_order];
 

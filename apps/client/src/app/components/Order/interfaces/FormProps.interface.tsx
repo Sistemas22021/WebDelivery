@@ -1,9 +1,8 @@
-import { Dispatch, FormEventHandler, SetStateAction } from "react";
-import { DishI } from "../../../interfaces/Dish.interface";
-
+import { Dispatch, SetStateAction } from "react";
+import { QueryDishesResponse } from "./QueryDishesResponse.interface";
 export default interface FormPropsI {
     //handleSubmit: FormEventHandler<HTMLFormElement>;
-    dishes: DishI[];
+    dishes: QueryDishesResponse;
     loading: boolean;
     setLoading: Dispatch<SetStateAction<boolean>>
 }

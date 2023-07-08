@@ -1,20 +1,21 @@
-import { FormEvent, useEffect, useState } from "react";
+import { Dispatch, FormEvent, SetStateAction, useEffect, useState } from "react";
 import Loader from "../Loader";
 import DishOption from "./DishOption";
 import FormField from "./FormField";
 import OrderTextArea from "./OrderTextArea";
 import FormPropsI from "./interfaces/FormProps.interface";
-import { OrderDishI } from "../../interfaces/OrderDish.interface";
+import { OrderDish } from "./interfaces/OrderDish.interface";
 import BuildOrderStringUtil from "./utils/BuildOrderString.util";
-import { OutGoingOrderI } from "../../interfaces/OutgoingOrder.interface";
+import { OutGoingOrder } from "./interfaces/OutgoingOrder.interface";
 import MapOutgoingOrderMapper from "./mappers/MapOutgoingOrder.mapper";
-import { postOrder } from "../../querys/order-querys";
+import { postOrder } from "./querys/order-querys";
 import { useTranslation } from "react-i18next";
 import GetOrderResponseMessage from "./utils/GetOrderResponseMessage";
+import { Dish } from "./interfaces/Dish.interface";
 
 export default function OrderForm(props: FormPropsI) {
 
-    const [orderDishes, setOrderDishes] = useState<OrderDishI[]>([]);
+    const [orderDishes, setOrderDishes] = useState<OrderDish[]>([]);
     const [orderString, setOrderString] = useState<string>('');
     const [orderResponse, setOrderResponse] = useState<string>('');
     
@@ -26,7 +27,7 @@ export default function OrderForm(props: FormPropsI) {
         const target: HTMLFormElement = e.currentTarget;
         const formData: FormData = new FormData(target);
 
-        const outgoingOrder: OutGoingOrderI = MapOutgoingOrderMapper(formData, orderDishes);
+        const outgoingOrder: OutGoingOrder = MapOutgoingOrderMapper(formData, orderDishes);
 
         props.setLoading(true);
         const response = await postOrder(outgoingOrder);
@@ -64,9 +65,11 @@ export default function OrderForm(props: FormPropsI) {
             </label>
             <div className="flex flex-col  gap-2 mb-4">
                 { 
-                props.loading ? <div> <Loader/> </div> 
-                : 
-                props.dishes.map((dish, index) => <DishOption key={`${dish.dish_id}`} setOrder={setOrderDishes} order={orderDishes} dish={dish}/>) 
+                    props.loading ? <div> <Loader/> </div> 
+                    : 
+                    ( props.dishes.message.length !== 0 ? <ErrorAlert message={props.dishes.message}/>
+                    : <Dishes data={props.dishes.items} orderDishes={orderDishes} setOrder={setOrderDishes} />
+                    ) 
                 }
             </div>
             { !props.loading && <OrderTextArea value={orderString}/>}
@@ -76,4 +79,24 @@ export default function OrderForm(props: FormPropsI) {
             </button>
         </form>
     );
+}
+
+function Dishes(props: { data: Dish[], orderDishes: OrderDish[], setOrder: Dispatch<SetStateAction<OrderDish[]>>,}) {
+
+    return(
+         <> 
+            {props.data.map(
+                dish => <DishOption key={dish.dish_id} dish={dish} order={props.orderDishes} setOrder={props.setOrder} />
+            )} 
+        </>
+    )
+}
+function ErrorAlert(props: {message: string}){
+
+    return(
+        <div className="alert bg-danger alert-error">
+            <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            <span>{props.message}</span>
+        </div>
+    )
 }

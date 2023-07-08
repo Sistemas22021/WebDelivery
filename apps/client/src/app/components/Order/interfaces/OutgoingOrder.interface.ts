@@ -1,14 +1,14 @@
-export interface OutGoingOrderDishI {
+export interface OutGoingOrderDish {
     dish_id: number | string;
     count: number;
 }
 
-export interface OutGoingOrderI {
+export interface OutGoingOrder {
     client_name: string;
     client_id: string;
     address: string;
     email: string;
     order_bill: number;
 
-    dishes: OutGoingOrderDishI[];
+    dishes: OutGoingOrderDish[];
 }

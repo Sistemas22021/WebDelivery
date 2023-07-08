@@ -1,12 +1,12 @@
-import { OrderDishI } from "../../../interfaces/OrderDish.interface";
+import { OrderDish } from "../interfaces/OrderDish.interface";
 
 
-function buildString(orderDish: OrderDishI, sub_total: number): string {
+function buildString(orderDish: OrderDish, sub_total: number): string {
 
     return `${orderDish.dish.name} ${Number(orderDish.dish.real_price).toFixed(2)} $ x ${orderDish.quantity} : ${Number(sub_total).toFixed(2)}\n`
 }
 
-export default (orderDishes: OrderDishI[]): string => {
+export default (orderDishes: OrderDish[]): string => {
 
     let order_string = "";
     let bill = 0;

@@ -1,10 +1,9 @@
-import { DishI } from "../../../interfaces/Dish.interface";
-import { OrderDishI } from "../../../interfaces/OrderDish.interface";
+import { Dish } from "../interfaces/Dish.interface";
+import { OrderDish } from "../interfaces/OrderDish.interface";
 import FindDishInOrderUtil from "./FindDishInOrder.util";
 
-export default (dish: DishI, currentOrder: OrderDishI[]): OrderDishI[] => {
+export default function addDishToOrder(dish: Dish, currentOrder: OrderDish[]): OrderDish[] {
 
-    console.log(dish)
     const aux = [...currentOrder];
     const index = FindDishInOrderUtil(dish,aux);
 

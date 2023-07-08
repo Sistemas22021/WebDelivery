@@ -1,6 +1,6 @@
-export interface DishI {
+export interface IncomingDish {
     dish_id: string;
     name: string;
     description: string;
-    real_price: number;
+    price: number;
 }

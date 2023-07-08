@@ -1,14 +1,14 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { DishI } from "../../interfaces/Dish.interface";
-import { OrderDishI } from "../../interfaces/OrderDish.interface";
-import AddDishToOrdenUtil from "./utils/AddDishToOrden.util";
-import RemoveDishFromOrderUtil from "./utils/RemoveDishFromOrder.util";
+import { Dish } from "./interfaces/Dish.interface";
+import { OrderDish } from "./interfaces/OrderDish.interface";
+import addDishToOrder from "./utils/AddDishToOrden.util";
+import removeDishFromOrder from "./utils/RemoveDishFromOrder.util";
 
 export default function DishOption(
   prop: { 
-    dish: DishI, 
-    order: OrderDishI[], 
-    setOrder: Dispatch<SetStateAction<OrderDishI[]>>,
+    dish: Dish, 
+    order: OrderDish[], 
+    setOrder: Dispatch<SetStateAction<OrderDish[]>>,
   }
 ) {
   
@@ -16,14 +16,14 @@ export default function DishOption(
 
 
   function addHandler() {
-    const new_order = AddDishToOrdenUtil(prop.dish,prop.order);
+    const new_order = addDishToOrder(prop.dish,prop.order);
     if (!isMarked)
       setIsMarked(true);
     prop.setOrder(new_order);
     
   }
   function removeHandler() {
-    const new_order = RemoveDishFromOrderUtil(prop.dish,prop.order);
+    const new_order = removeDishFromOrder(prop.dish,prop.order);
     const is_marked = new_order.find(order_dish => order_dish.dish.dish_id === prop.dish.dish_id)
 
     if (!is_marked)
