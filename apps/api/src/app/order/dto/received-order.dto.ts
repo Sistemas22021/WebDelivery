@@ -23,7 +23,7 @@ export class ReceivedOrderDto {
     @IsEmail()
     email: string;
 
-    @ApiProperty({example: 95})
+    @ApiProperty({example: 150})
     @IsPositive()
     order_bill: number;
 

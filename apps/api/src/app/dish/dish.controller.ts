@@ -13,7 +13,7 @@ export class DishController {
 
 
     @ApiOkResponse({type: DishDto,isArray: true})
-    @ApiInternalServerErrorResponse({description: 'Ocurrio un error en el servidor.'})
+    @ApiInternalServerErrorResponse()
     @Get()
     fetchDishes(){
         return this.dishService.fetchDishes();

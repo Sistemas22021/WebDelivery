@@ -3,9 +3,11 @@ import { OrderController } from './order.controller';
 import { OrderService } from './order.service';
 import { FetchDishFromArray } from '../shared/producer/product.producer';
 import { SenderOrderMail } from '../sender/classes/sender-order-email.class';
-import { OrderCreatedListener } from './listeners/order-created.listener';
 import { FireormModule } from 'nestjs-fireorm';
 import { OrderCollection } from './collections/order.collection';
+import { SaveIntoFireStorageListener } from './order-created-listeners/save-firestorage.listener';
+import { SaveIntoMySQlListener } from './order-created-listeners/save-mysql.listener';
+import { SendEmailListener } from './order-created-listeners/send-email.listener';
 
 @Module({
   controllers: [OrderController],
@@ -17,7 +19,9 @@ import { OrderCollection } from './collections/order.collection';
       useClass: SenderOrderMail,
     
     },
-    OrderCreatedListener
+    SaveIntoFireStorageListener,
+    SaveIntoMySQlListener,
+    SendEmailListener
   ],
   imports: [FireormModule.forFeature([OrderCollection])]
 })
