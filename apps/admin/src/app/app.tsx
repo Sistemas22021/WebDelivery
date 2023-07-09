@@ -1,14 +1,10 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import styles from './app.module.css';
-import Grid from './components/tablas'
-
+import Sidebar from './components/Sidebar/Sidebar';
 
 
 export function App() {
   return (
-    <>
-        <Grid/>
-    </>
+    <Sidebar/>
   );
 }
 
