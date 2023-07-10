@@ -20,6 +20,7 @@
     "axios": "^1.4.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
+    "firebase": "^10.0.0",
     "fireorm": "^0.23.3",
     "i18next": "^23.2.2",
     "mapbox-gl": "^2.15.0",
