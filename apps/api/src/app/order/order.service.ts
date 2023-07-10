@@ -1,9 +1,9 @@
-import {Injectable, InternalServerErrorException, UnprocessableEntityException } from '@nestjs/common';
+import {Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import { ReceivedOrderDto } from './dto/received-order.dto';
-import { Order } from '../shared/classes/Order.class';
 import { FetchDishFromArray } from '../shared/producer/product.producer';
-import { OrderDish } from '../shared/classes/OrderDish.class';
-import { SenderOrderMail } from '../shared/classes/SenderOrderMail/SenderOrderMail.class';
+import { MapOrder, MapOrderDishElements, checkIfDishesExists } from './utils/service.util';
+import { OrderDish } from './classes/order-dish.class';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @Injectable()
 export class OrderService {
@@ -11,35 +11,28 @@ export class OrderService {
 
     constructor(
         private dishProducer: FetchDishFromArray,
-        private senderOrder: SenderOrderMail
+       
+        private eventEmitter: EventEmitter2
 
     ) {}
 
     async createOrder(orderDto: ReceivedOrderDto){
 
-    
         const dishes_array = this.dishProducer.fetch();
 
-        const new_order = new Order(orderDto.client_name,orderDto.client_id,orderDto.email,orderDto.address);
 
-        const dishes = orderDto.dishes.map(dish => {
-            const aux = dishes_array.find(element => element.dish_id === dish.dish_id);
-            if(!aux) throw new UnprocessableEntityException();
-            return new OrderDish(aux,dish.count);
-        })
-        new_order.setDishes(dishes);
+        if (!checkIfDishesExists(orderDto.dishes, dishes_array)) throw new NotFoundException();
 
-        if(new_order.getBill() === orderDto.order_bill) {
-            try {
-                await this.senderOrder.sendOrder(new_order);    
-            } catch (error) {
-                throw new InternalServerErrorException();
-            }
-            return;
-        };
+        
+        const dishes: OrderDish[] = MapOrderDishElements(orderDto.dishes, dishes_array);
+        const order = MapOrder(orderDto, dishes);
 
-        throw new UnprocessableEntityException();
+        //await this.senderOrder.sendOrder(MapOrderToEmailData(order));
+        if (order.getBill() !== orderDto.order_bill) throw new UnprocessableEntityException();
 
+        this.eventEmitter.emit('order.created',order);
+
+        return "Enviado exitosamente!";
     }
 
 }
