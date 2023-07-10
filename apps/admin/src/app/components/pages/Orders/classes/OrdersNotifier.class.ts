@@ -23,7 +23,6 @@ export class OrdersNotifier{
         this.observers = this.observers.filter(element=> element.id !== observer.id);
     }
     notify(orders: OrderInterface[]): void {
-        console.log(this.observers)
         this.observers.forEach(observer => observer.update(orders));
     }
 }
