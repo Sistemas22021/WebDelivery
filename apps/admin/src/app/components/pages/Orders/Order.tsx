@@ -1,16 +1,34 @@
+import { OrderStatus } from "./enums/OrderStatus.enum";
 import OrderInterface from "./interfaces/order.interface";
 
 
 
-export default function Order(props: { order: OrderInterface }) {
+export default function Order(props: 
+    { 
+    order: OrderInterface, 
+    setCurrentOrder: React.Dispatch<React.SetStateAction<OrderInterface | null>>
+}) {
+
+    const element_type = props.order.status === OrderStatus.PENDING ? 
+    'warning' : 
+    'info';
+    const button_text = props.order.status === OrderStatus.PENDING ? 
+    "Atender"
+    : "Completar"
+    
+    function onClickHandler() {
+        props.setCurrentOrder(props.order);
+    }
+
     return(
         <div className="border-gray-200 border-2 p-6 xl:w-3/4 ">
+            
             <div className="flex flex-col  lg:flex-row gap-4">
                 <div className="flex-1 flex flex-row justify-center lg:flex-row lg:justify-start">
-                    <button className="btn btn-wide btn-primary">Atender</button>
+                    <button onClick={onClickHandler} className={`btn btn-wide btn-${element_type}`}>{button_text}</button>
                 </div>
                 <div className="flex flex-row justify-center">
-                    <div className="badge badge-info text-xl p-3">{props.order.status}</div>
+                    <div className={`badge badge-${element_type} text-md p-3`}>{props.order.status}</div>
                 </div>
             </div>
             <div className="flex flex-col gap-6 py-4 w-3/4">

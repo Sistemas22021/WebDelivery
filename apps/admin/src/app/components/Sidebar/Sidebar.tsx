@@ -8,8 +8,11 @@ import { useState } from 'react';
 
 export default function Sidebar() {
     const [orderStatus,setOrderStatus] = useState<OrderStatus>(OrderStatus.PENDING);
-  
-        
+    
+
+    
+    
+    
     return(
         <div className="drawer lg:drawer-open">
             <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />

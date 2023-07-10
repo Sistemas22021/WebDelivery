@@ -7,7 +7,7 @@ export default function PageHeader(props: { header: string, icon: IconDefinition
         <div className='border-b-2 h-16 flex flex-row' >
             <div className='flex flex-col justify-center flex-1 px-6'>
                 <h1 className='text-2xl font-bold flex gap-3' >
-                    <FontAwesomeIcon size='lg' icon={props.icon} />
+                    <FontAwesomeIcon size='lg' icon={faBars} />
                     <span>{props.header}</span>
                 </h1>
             </div>

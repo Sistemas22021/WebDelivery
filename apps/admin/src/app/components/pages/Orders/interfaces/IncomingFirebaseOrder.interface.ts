@@ -10,6 +10,8 @@ export interface IncomingFirebaseDish {
     current_price: number;
     dish_bill: number;
     dish_id: string;
+    dish_name?: string;
+    dish_description?: string;
     quantity: number;
 }
 
