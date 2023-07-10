@@ -1,14 +1,12 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import styles from './app.module.css';
-import Grid from './components/tablas'
+import Sidebar from './components/Sidebar/Sidebar';
+import OnSnapShotNotify from './components/pages/Orders/utils/onSnapShotNotify.util';
 
 
+OnSnapShotNotify();
 
 export function App() {
   return (
-    <>
-        <Grid/>
-    </>
+    <Sidebar/>
   );
 }
 
