@@ -28,7 +28,6 @@ export default function SidebarLink(props: SidebarLinkProps) {
     
     function onClickHandler(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
         e.preventDefault();
-        console.log(`Estado actual: ${props.order_status}`)
         props.setOrderStatus(props.order_status)
     }
     const [count, setCount] = useState<number>(0);
