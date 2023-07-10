@@ -21,7 +21,55 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install Dependencies  
         run: npm install
+        
+      - name: Testing
+        run: npx nx test api
+      - name: Prueba de linting
+        run: npx nx lint api
+      - name: Construccion de la api
+        run: npx nx build api
+  react-clientes:
+    name: "Pruebas, linting y colnstruccion del frontend de clientes."
+    runs-on: ubuntu-latest
 
-      - run: npx nx run api:test
-      - run: npx nx run api:lint
-      - run: npx nx run api:build
+    strategy:
+      matrix:
+        node-version: [18.16.1]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install Dependencies  
+        run: npm install
+      - name: Testing
+        run: npx nx test client
+      - name: Prueba de linting
+        run: npx nx lint client
+      - name: Construccion de la api
+        run: npx nx build client
+  react-administrador:
+    name: "Pruebas, linting y colnstruccion del frontend de administrador."
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.16.1]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install Dependencies  
+        run: npm install
+      - name: Testing
+        run: npx nx test admin
+      - name: Prueba de linting
+        run: npx nx lint admin
+      - name: Construccion de la api
+        run: npx nx build admin
+
+
+      
