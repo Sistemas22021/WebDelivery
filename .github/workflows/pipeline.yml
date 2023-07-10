@@ -49,8 +49,9 @@ jobs:
         run: npx nx lint client
       - name: Construccion de la aplicacion
         run: npx nx build client
+      - name: Dependencia firebase
+        run: npm install -g firebase-tools 
       - name: Despliegue a firebase
-        run: npm install -g firebase-tools
         run: cd client-build && firebase deploy --token 1//05XWeAzvCqjKBCgYIARAAGAUSNwF-L9IrMVCKHikFNinW4pqogtV-Xfflptg-b7ymRzAnGOO3cYW1YtWJV2W1IW2VQlbp5ox1t4M
   react-administrador:
     name: "Pruebas, linting y colnstruccion del frontend de administrador."
@@ -73,8 +74,9 @@ jobs:
         run: npx nx lint admin
       - name: Construccion de la aplicacion
         run: npx nx build admin
+      - name: Dependencia firebase
+        run: npm install -g firebase-tools 
       - name: Despliegue a firebase
-        run: npm install -g firebase-tools
         run: cd admin-build && firebase deploy --token 1//05XWeAzvCqjKBCgYIARAAGAUSNwF-L9IrMVCKHikFNinW4pqogtV-Xfflptg-b7ymRzAnGOO3cYW1YtWJV2W1IW2VQlbp5ox1t4M
 
       
