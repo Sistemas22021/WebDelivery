@@ -9,7 +9,7 @@
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "client-build"
+        "outputPath": "client-build/build"
       },
       "configurations": {
         "development": {
