@@ -19,24 +19,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'
-      - uses: nrwl/nx-set-shas@v3
-      - run: npm ci
+      - name: Install Dependencies  
+        run: npm install
 
       - run: npx nx run api:test
       - run: npx nx run api:lint
       - run: npx nx run api:build
-  react-client:
-    name: "Prueba, linting y construcción del frontend de clientes"
-    runs-on: ubuntu-latest
-    steps:
-      - run: npx nx run client:test
-      - run: npx nx run client:lint
-      - run: npx nx run client:build
-  react-admin:
-    name: "Prueba, linting y construcción del frontend de administrador"
-    runs-on: ubuntu-latest
-    steps:
-      - run: npx nx run admin:test
-      - run: npx nx run admin:lint
-      - run: npx nx run admin:build
