@@ -17,10 +17,10 @@ export class OrderEntity {
     @Column({type:'real'})
     bill: number;
 
-    @ManyToOne(() => ClientEntity, (client) => client.orders)
+    @ManyToOne(() => ClientEntity, (client) => client.orders, {eager: true})
     @JoinColumn({name:'client'})
     client: ClientEntity;
 
-    @OneToMany(() => OrderDishEntity, (order_dish) => order_dish.order)
+    @OneToMany(() => OrderDishEntity, (order_dish) => order_dish.order, {eager :true})
     order_dishes: OrderDishEntity[];
 }

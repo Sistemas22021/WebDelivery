@@ -18,7 +18,7 @@ export class OrderDishEntity {
     @JoinColumn({name:'order_id'})
     order: OrderEntity
 
-    @ManyToOne(() => DishEntity, (dish) => dish.order_dishes)
+    @ManyToOne(() => DishEntity, (dish) => dish.order_dishes, {eager: true})
     @JoinColumn({name:'dish_id'})
     dish: DishEntity
     

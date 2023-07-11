@@ -10,3 +10,13 @@ export function MapDishes(dishes: DishEntity[]): DishInterface[] {
         price: dish.price
     }))
 }
+
+
+export function MapDishFromEntity(dish: DishEntity): DishInterface {
+    return {
+        dish_id: String(dish.dish_id),
+        description: dish.description,
+        name: dish.name,
+        price: dish.price
+    }
+}

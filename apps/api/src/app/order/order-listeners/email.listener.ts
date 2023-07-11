@@ -6,7 +6,7 @@ import { Order } from "../classes/order.class";
 
 
 @Injectable()
-export class SendEmailListener { 
+export class OrderEmailListener { 
 
     constructor(
         @Inject('SenderOrder')

@@ -8,7 +8,12 @@ import { Client } from "../../shared/interfaces/client.interface";
 import { OrderData } from "../../sender/interfaces/order-data.interface";
 import { OrderDishCollectionInterface } from "../interfaces/order-dish.interface";
 import { OrderCollection } from "../collections/order.collection";
-import { MapClientFromOrder } from "./client.mapper";
+import { MapClientFromEntity, MapClientFromOrder } from "./client.mapper";
+import { OrderEntity } from "../entities/order.entity";
+import { OrderStatus } from "../enums/order-status.enum";
+import { ClientEntity } from "../entities/client.entity";
+import { OrderDishEntity } from "../entities/order_dish.entity";
+import { MapOrderDishesFromEntity } from "./order_dish.mapper";
 export function MapOrderDish(current: OrderDishDto, dish: DishInterface): OrderDish {
     
     const aux: CreateOrderDish = {
@@ -67,4 +72,27 @@ export function MapOrderCollection(order: Order): OrderCollection {
         order_bill: order.getBill(),
         dishes: order.getDishes().map(dish => MapOrderDishCollection(dish))
     }
+}
+
+export function MapOrderStatus(status: string): OrderStatus {
+    switch(status) {
+        case 'PENDING': return OrderStatus.PENDING
+        case 'CANCELLED': return OrderStatus.CANCELLED
+        case 'ON_PROGRESS': return OrderStatus.COMPLETED
+        case 'COMPLETED': return OrderStatus.COMPLETED
+        default: return OrderStatus.PENDING
+    }
+}
+
+export function MapOrderFromEntity(order: OrderEntity): Order {
+    
+    const aux = new Order({
+        id: order.id,
+        client: MapClientFromEntity(order.client),
+        dishes: MapOrderDishesFromEntity(order.order_dishes),
+        generated_at: new Date(order.generated_at),
+        order_bill: order.bill,
+        status: MapOrderStatus(order.status)
+    });
+    return aux;
 }

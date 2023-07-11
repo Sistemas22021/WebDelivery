@@ -2,7 +2,7 @@ import {Injectable, InternalServerErrorException, NotFoundException, Unprocessab
 import { ReceivedOrderDto } from './dto/received-order.dto';
 import { FetchDishFromArray } from '../shared/producer/product.producer';
 import { checkIfDishesExists, getOrUndefinedClient } from './utils/service.util';
-import { MapOrder, MapOrderDishElements } from './mappers/order.mapper';
+import { MapOrder, MapOrderDishElements, MapOrderFromEntity } from './mappers/order.mapper';
 import { OrderDish } from './classes/order-dish.class';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { InjectRepository } from '@nestjs/typeorm/dist';
@@ -15,6 +15,8 @@ import { OrderDishEntity } from './entities/order_dish.entity';
 import { SaveOrderIntoMysql } from './utils/order.util';
 import { OrderEntity } from './entities/order.entity';
 import { MapDishes } from './mappers/dishes.mapper';
+import { UpdateOrderStatusDto } from './dto/update-order-status.dto';
+import { OrderStatus } from './enums/order-status.enum';
 
 @Injectable()
 export class OrderService {
@@ -71,5 +73,36 @@ export class OrderService {
 
         return "Enviado exitosamente!";
     }
+
+    async updateOrderStatus(status: UpdateOrderStatusDto) {
+        const order_exists = await this.orderRepository.findOneBy({id: status.order_id});
+        
+        const order = MapOrderFromEntity(order_exists);
+
+        switch(status.status){
+            case OrderStatus.COMPLETED:
+                order.completeOrder();
+                this.eventEmitter.emit('order.delete',order);
+            break;
+            case OrderStatus.CANCELLED: 
+                order.cancelOrder();
+                this.eventEmitter.emit('order.delete',order);
+            break;
+            case OrderStatus.ON_PROGRESS: 
+                order.startOrder();
+                this.eventEmitter.emit('order.update',order);
+            break;
+            case OrderStatus.PENDING:
+                order.setStatus();
+                this.eventEmitter.emit('order.update',order);
+            break;
+        }
+        order_exists.status = order.getStatus();
+        await this.orderRepository.save(order_exists);
+
+        return 'Estado actualizado';
+
+    }
+
 
 }

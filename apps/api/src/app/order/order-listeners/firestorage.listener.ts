@@ -7,7 +7,7 @@ import { OrderCollection } from "../collections/order.collection";
 import { BaseFirestoreRepository } from "fireorm";
 
 @Injectable()
-export class SaveIntoFireStorageListener { 
+export class OrderFireStorageListener { 
 
     constructor(
         @InjectRepository(OrderCollection)
@@ -19,9 +19,27 @@ export class SaveIntoFireStorageListener {
         try {
             const order_storage = MapOrderCollection(order);
             await this.orderCollection.create(order_storage);
-
+            Logger.log('Guardado exitosamente!')
         } catch (error) {
             Logger.log("Hubo un error almacenando la orden en fire storage.");
+        }   
+    }
+
+    @OnEvent('order.delete')
+    async deleteOrderFromFireStore(order: Order)  {
+        try {
+            await this.orderCollection.delete(order.getId());
+        } catch (error) {
+            Logger.log("Hubo un error eliminando el registro en fire storage");
+        }   
+    }
+    @OnEvent('order.update')
+    async updateOrderInFireStore(order: Order)  {
+        try {
+            const order_storage = MapOrderCollection(order);
+            await this.orderCollection.update(order_storage);
+        } catch (error) {
+            Logger.log("Hubo un error actualizando el registro en fire storage");
         }   
     }
 }

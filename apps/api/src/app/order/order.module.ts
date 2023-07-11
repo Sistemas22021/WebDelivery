@@ -5,8 +5,8 @@ import { FetchDishFromArray } from '../shared/producer/product.producer';
 import { SenderOrderMail } from '../sender/classes/sender-order-email.class';
 import { FireormModule } from 'nestjs-fireorm';
 import { OrderCollection } from './collections/order.collection';
-import { SaveIntoFireStorageListener } from './order-created-listeners/save-firestorage.listener';
-import { SendEmailListener } from './order-created-listeners/send-email.listener';
+import { OrderFireStorageListener } from './order-listeners/firestorage.listener';
+import { OrderEmailListener } from './order-listeners/email.listener';
 import { TypeOrmModule } from '@nestjs/typeorm/dist';
 import { OrderEntity } from './entities/order.entity';
 import { ClientEntity } from './entities/client.entity';
@@ -23,8 +23,8 @@ import { DishEntity } from '../dish/entities/dish.entity';
       useClass: SenderOrderMail,
     
     },
-    SaveIntoFireStorageListener,
-    SendEmailListener
+    OrderFireStorageListener,
+    OrderEmailListener
   ],
   imports: [
     FireormModule.forFeature([OrderCollection]),
