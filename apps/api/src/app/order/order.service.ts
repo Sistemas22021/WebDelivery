@@ -1,6 +1,5 @@
 import {Injectable, InternalServerErrorException, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import { ReceivedOrderDto } from './dto/received-order.dto';
-import { FetchDishFromArray } from '../shared/producer/product.producer';
 import { checkIfDishesExists, getOrUndefinedClient } from './utils/service.util';
 import { MapOrder, MapOrderDishElements, MapOrderFromEntity } from './mappers/order.mapper';
 import { OrderDish } from './classes/order-dish.class';
@@ -23,7 +22,6 @@ export class OrderService {
 
 
     constructor(
-        private dishProducer: FetchDishFromArray,
         @InjectRepository(DishEntity)
         private readonly dishRepository: Repository<DishEntity>,
         @InjectRepository(ClientEntity)
@@ -42,7 +40,7 @@ export class OrderService {
         const current_client = await getOrUndefinedClient(this.clientRepository, orderDto.client_id);
         const received_client = MapClientFromOrder(orderDto);
 
-        if (!checkIfDishesExists(orderDto.dishes, dishes_array)) throw new NotFoundException();
+        if (!checkIfDishesExists(orderDto.dishes, dishes_array)) throw new NotFoundException('No se encontraron los platillos');
 
 
 
@@ -58,7 +56,7 @@ export class OrderService {
         const order = MapOrder(orderDto, dishes);
 
         //await this.senderOrder.sendOrder(MapOrderToEmailData(order));
-        if (order.getBill() !== orderDto.order_bill) throw new UnprocessableEntityException();
+        if (order.getBill() !== orderDto.order_bill) throw new UnprocessableEntityException('El monto calculado no coincide con el enviado.');
 
         const params = { 
             order,
@@ -66,7 +64,7 @@ export class OrderService {
             orderRepository: this.orderRepository 
         }
         
-        if (!(await SaveOrderIntoMysql(params))) throw new InternalServerErrorException();
+        if (!(await SaveOrderIntoMysql(params))) throw new InternalServerErrorException('Ocurrio un error almacenando la orden.');
 
 
         this.eventEmitter.emit('order.created',order);
@@ -77,6 +75,9 @@ export class OrderService {
     async updateOrderStatus(status: UpdateOrderStatusDto) {
         const order_exists = await this.orderRepository.findOneBy({id: status.order_id});
         
+        if (!order_exists)
+            throw new NotFoundException();
+
         const order = MapOrderFromEntity(order_exists);
 
         switch(status.status){
@@ -96,10 +97,11 @@ export class OrderService {
                 order.setStatus();
                 this.eventEmitter.emit('order.update',order);
             break;
+
+            default: throw new UnprocessableEntityException();
         }
         order_exists.status = order.getStatus();
         await this.orderRepository.save(order_exists);
-
         return 'Estado actualizado';
 
     }
