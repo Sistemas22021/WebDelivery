@@ -11,8 +11,6 @@ import { OrderCollection } from "../collections/order.collection";
 import { MapClientFromEntity, MapClientFromOrder } from "./client.mapper";
 import { OrderEntity } from "../entities/order.entity";
 import { OrderStatus } from "../enums/order-status.enum";
-import { ClientEntity } from "../entities/client.entity";
-import { OrderDishEntity } from "../entities/order_dish.entity";
 import { MapOrderDishesFromEntity } from "./order_dish.mapper";
 export function MapOrderDish(current: OrderDishDto, dish: DishInterface): OrderDish {
     

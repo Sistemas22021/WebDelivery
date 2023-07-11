@@ -1,5 +1,5 @@
 import { ConfigModule, ConfigService } from "@nestjs/config";
-import { TypeOrmModuleAsyncOptions, TypeOrmModuleOptions } from "@nestjs/typeorm/dist";
+import { TypeOrmModuleAsyncOptions } from "@nestjs/typeorm/dist";
 
 
 export const TypeOrmConfig: TypeOrmModuleAsyncOptions = {

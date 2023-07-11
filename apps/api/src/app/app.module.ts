@@ -9,7 +9,6 @@ import { FireormModule } from 'nestjs-fireorm';
 import firestoreConfig from './config/firestore.config';
 import { TypeOrmModule } from '@nestjs/typeorm/dist';
 import { TypeOrmConfig } from './config/typeorm.config';
-import { OrderDish } from './order/classes/order-dish.class';
 
 @Module({
   imports: [

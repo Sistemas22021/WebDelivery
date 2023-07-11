@@ -4,7 +4,6 @@ import { Repository } from "typeorm";
 import { OrderDishEntity } from "../entities/order_dish.entity";
 import { OrderDish } from "../classes/order-dish.class";
 import { DishEntity } from "../../dish/entities/dish.entity";
-import { Logger } from "@nestjs/common";
 import { Client } from "../../shared/interfaces/client.interface";
 import { ClientEntity } from "../entities/client.entity";
 interface SaveOrderParams {
