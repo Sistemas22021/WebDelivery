@@ -6,8 +6,12 @@ import { SenderOrderMail } from '../sender/classes/sender-order-email.class';
 import { FireormModule } from 'nestjs-fireorm';
 import { OrderCollection } from './collections/order.collection';
 import { SaveIntoFireStorageListener } from './order-created-listeners/save-firestorage.listener';
-import { SaveIntoMySQlListener } from './order-created-listeners/save-mysql.listener';
 import { SendEmailListener } from './order-created-listeners/send-email.listener';
+import { TypeOrmModule } from '@nestjs/typeorm/dist';
+import { OrderEntity } from './entities/order.entity';
+import { ClientEntity } from './entities/client.entity';
+import { OrderDishEntity } from './entities/order_dish.entity';
+import { DishEntity } from '../dish/entities/dish.entity';
 
 @Module({
   controllers: [OrderController],
@@ -20,9 +24,16 @@ import { SendEmailListener } from './order-created-listeners/send-email.listener
     
     },
     SaveIntoFireStorageListener,
-    SaveIntoMySQlListener,
     SendEmailListener
   ],
-  imports: [FireormModule.forFeature([OrderCollection])]
+  imports: [
+    FireormModule.forFeature([OrderCollection]),
+    TypeOrmModule.forFeature(
+      [OrderEntity,
+        ClientEntity,
+        OrderDishEntity,
+        DishEntity
+      ]),
+  ]
 })
 export class OrderModule {}

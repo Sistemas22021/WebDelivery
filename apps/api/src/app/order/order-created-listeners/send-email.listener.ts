@@ -1,7 +1,7 @@
 import { Inject, Injectable} from "@nestjs/common";
 import { OnEvent } from "@nestjs/event-emitter";
 import { SenderOrder } from "../../sender/interfaces/sender-order.interface";
-import {MapOrderToEmailData } from "../utils/service.util";
+import { MapOrderToEmailData } from "../mappers/order.mapper";
 import { Order } from "../classes/order.class";
 
 

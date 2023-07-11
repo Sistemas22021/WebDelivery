@@ -1,6 +1,6 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { OnEvent } from "@nestjs/event-emitter";
-import { MapOrderCollection } from "../utils/service.util";
+import { MapOrderCollection } from "../mappers/order.mapper";
 import { Order } from "../classes/order.class";
 import { InjectRepository } from "nestjs-fireorm";
 import { OrderCollection } from "../collections/order.collection";

@@ -7,6 +7,9 @@ import appConfig from './config/app.config';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { FireormModule } from 'nestjs-fireorm';
 import firestoreConfig from './config/firestore.config';
+import { TypeOrmModule } from '@nestjs/typeorm/dist';
+import { TypeOrmConfig } from './config/typeorm.config';
+import { OrderDish } from './order/classes/order-dish.class';
 
 @Module({
   imports: [
@@ -14,7 +17,8 @@ import firestoreConfig from './config/firestore.config';
     OrderModule,
     ConfigModule.forRoot( { load: [appConfig] } ), 
     EventEmitterModule.forRoot(),
-    FireormModule.forRoot(firestoreConfig())
+    FireormModule.forRoot(firestoreConfig()),
+    TypeOrmModule.forRootAsync(TypeOrmConfig),
   ],
   controllers: [],
   providers: [],

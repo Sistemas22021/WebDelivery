@@ -1,13 +1,11 @@
+import { Repository } from "typeorm";
 import { DishInterface } from "../../dish/interfaces/dish.interface";
-import { Client } from "../../shared/interfaces/client.interface";
-import { CreateOrderDish, OrderDish } from "../classes/order-dish.class";
-import { Order } from "../classes/order.class";
-import { OrderDishDto } from "../dto/order-dish.dto";
-import { ReceivedOrderDto } from "../dto/received-order.dto";
 
-import { OrderData } from "../../sender/interfaces/order-data.interface";
-import { OrderCollection } from "../collections/order.collection";
-import { OrderDishCollectionInterface } from "../interfaces/order-dish.interface";
+import { OrderDishDto } from "../dto/order-dish.dto";
+import { ClientEntity } from "../entities/client.entity";
+
+
+
 export function checkIfDishesExists(current: OrderDishDto[], dishes: DishInterface[]): boolean {
     
     for(const dish_dto of current) {
@@ -15,74 +13,11 @@ export function checkIfDishesExists(current: OrderDishDto[], dishes: DishInterfa
 
         if (!result) return false;
     }
-
-
     return true;
-    
 } 
 
+export async function getOrUndefinedClient(repository: Repository<ClientEntity>, identification: string): Promise<ClientEntity | null> {
 
-export function MapOrderDish(current: OrderDishDto, dish: DishInterface): OrderDish {
-    
-    const aux: CreateOrderDish = {
-        quantity: current.count,
-        current_price: dish.price,
-        dish: dish
-    }
-    return new OrderDish(aux);
+    return await repository.findOneBy({identification});
 }
 
-export function MapOrderDishElements(current: OrderDishDto[], dish: DishInterface[]): OrderDish[] {
-
-    return current.map(element => {
-        const aux_dish = dish.find(aux => String(aux.dish_id) === String(element.dish_id));
-        return MapOrderDish(element, aux_dish);
-    })
-
-}
-
-export function MapOrder(order: ReceivedOrderDto, dishes: OrderDish[]): Order {
-
-    const client: Client = {
-        address: order.address,
-        email: order.email,
-        identification: order.client_id,
-        name: order.client_name
-    }
-    return new Order({ client, dishes})
-
-}
-
-export function MapOrderToEmailData(order: Order): OrderData {
-    
-    const string_order = order.getDishes().map(dish => `${dish.getName()}: ${dish.getCurrentPrice()} - x${dish.getQuantitiy()}\n`);
-    return {
-        client_address: order.getClient().address,
-        client_email: order.getClient().email,
-        client_id: order.getClient().identification,
-        client_name: order.getClient().name,
-        order_bill: order.getBill(),
-        order: string_order.join("")
-    };
-}
-
-
-export function MapOrderDishCollection(dish: OrderDish): OrderDishCollectionInterface {
-
-    return {
-        current_price: dish.getCurrentPrice(),
-        dish_bill: dish.getDishBill(),
-        dish_id: dish.getId(),
-        quantity: dish.getQuantitiy()
-    }
-}
-export function MapOrderCollection(order: Order): OrderCollection {
-    return {
-        id: order.getId(),
-        client: order.getClient(),
-        generated_at: order.getDate().toISOString(),
-        status: order.getStatus(),
-        order_bill: order.getBill(),
-        dishes: order.getDishes().map(dish => MapOrderDishCollection(dish))
-    }
-}
