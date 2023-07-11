@@ -12,6 +12,8 @@ import { OrderEntity } from './entities/order.entity';
 import { ClientEntity } from './entities/client.entity';
 import { OrderDishEntity } from './entities/order_dish.entity';
 import { DishEntity } from '../dish/entities/dish.entity';
+import SenderOrderTelegram from '../sender/classes/sender-order-telegram.class';
+import { OrderTelegramListener } from './order-listeners/telegram.listener';
 
 @Module({
   controllers: [OrderController],
@@ -19,12 +21,16 @@ import { DishEntity } from '../dish/entities/dish.entity';
     OrderService,
     FetchDishFromArray,
     {
-      provide: 'SenderOrder',
+      provide: 'SenderOrderMail',
       useClass: SenderOrderMail,
-    
+    },
+    {
+      provide: 'SenderOrderTelegram',
+      useClass: SenderOrderTelegram
     },
     OrderFireStorageListener,
-    OrderEmailListener
+    OrderEmailListener,
+    OrderTelegramListener
   ],
   imports: [
     FireormModule.forFeature([OrderCollection]),

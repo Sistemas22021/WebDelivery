@@ -51,6 +51,18 @@ export function MapOrderToEmailData(order: Order): OrderData {
     };
 }
 
+export function MapOrderToTelegramMessage(order: Order): OrderData {
+
+    const string_order = order.getDishes().map(dish => `${dish.getName()}: ${dish.getCurrentPrice()} - x${dish.getQuantitiy()}\n`);
+    return {
+        client_address: order.getClient().address,
+        client_email: order.getClient().email,
+        client_id: order.getClient().identification,
+        client_name: order.getClient().name,
+        order_bill: order.getBill(),
+        order: string_order.join("")
+    };
+}
 
 export function MapOrderDishCollection(dish: OrderDish): OrderDishCollectionInterface {
 
