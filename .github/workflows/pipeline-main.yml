@@ -1,4 +1,4 @@
-name: pipeline-test
+name: pipeline-deploy
 on:
   push:
       branches:
