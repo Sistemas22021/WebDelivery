@@ -1,6 +1,8 @@
 name: pipeline-test
 on:
-  workflow_dispatch:
+   push:
+      branches:
+        - 'develop'
     
 
 jobs:
