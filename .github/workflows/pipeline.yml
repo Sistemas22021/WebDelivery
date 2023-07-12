@@ -1,44 +1,33 @@
-name: react-admin-deploy
+name: pipeline-test
 on:
-  workflow_dispatch:
   push:
       branches:
-        - 'develop' 
+        - 'develop'
 
 jobs:
-  build:
-    name: Build
+  react-clientes:
+    name: "Pruebas, linting y colnstruccion del frontend de clientes."
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.16.1]
     steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v3
-      - name: Install Dependencies
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install Dependencies  
         run: npm install
-      - name: Build
-        run: npx nx build admin
-      - name: Archive Production Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: dist
-          path: admin-build
-  deploy:
-    name: Deploy
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v3
-      - name: Download Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: dist
-          path: admin-build
-      - name: Deploy to Firebase
-        uses: joinflux/firebase-tools@master
-        with:
-          args: deploy --only hosting
+      - name: Construccion de la aplicacion
+        run: npx nx build client
+      - name: Dependencia para hacer deploy en firebase
+        run: npm install -g firebase-tools 
+      - name: Despliegue a firebase 
+        run: |
+          cd client-build && firebase deploy --token $FIREBASE_TOKEN
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN_PRD }}
-
-        
+      
       
