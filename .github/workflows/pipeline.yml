@@ -1,16 +1,44 @@
-name: pipeline-test
+name: react-admin-deploy
 on:
-   push:
+  workflow_dispatch:
+  push:
       branches:
-        - 'develop'
-    
+        - 'main' 
 
 jobs:
-  testing-pipeline:
-    name: "Prueba de variable secreta"
+  build:
+    name: Build
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checking  
-        run: echo "Hello world ${{ secrets.FIREBASE_TOKEN_PRD }}" 
+      - name: Checkout Repo
+        uses: actions/checkout@develop
+      - name: Install Dependencies
+        run: npm install
+      - name: Build
+        run: npx nx build admin
+      - name: Archive Production Artifact
+        uses: actions/upload-artifact@develop
+        with:
+          name: dist
+          path: admin-build/build
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@develop
+      - name: Download Artifact
+        uses: actions/download-artifact@develop
+        with:
+          name: dist
+          path: admin-build/build
+      - name: Deploy to Firebase
+        uses: joinflux/firebase-tools@develop
+        with:
+          args: deploy --only hosting
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN_PRD }}
+
+        
       
