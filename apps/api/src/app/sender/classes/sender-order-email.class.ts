@@ -1,7 +1,7 @@
 import SMTPTransport from "nodemailer/lib/smtp-transport";
 import { SenderOrder } from "../interfaces/sender-order.interface";
 import { Transporter, createTransport } from "nodemailer";
-import { Injectable, InternalServerErrorException } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { MailOptions } from "nodemailer/lib/json-transport";
 import orderConfirmationTemplate from "../email-templates/order-confirmation.template";
 import receivedOrderTemplate from "../email-templates/received-order.template";

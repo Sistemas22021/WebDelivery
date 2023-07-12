@@ -19,7 +19,9 @@ describe('Sender Order Email',() => {
         const transporter = TransporterFixture();
         
         jest.spyOn(transporter,'sendMail').mockResolvedValue(SentMessageFixture());
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         jest.spyOn(senderOrder as any, 'makeTransport').mockResolvedValue(transporter);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         jest.spyOn(senderOrder as any,'sendOrderToCompany').mockResolvedValue(true);
 
         const sended = await senderOrder.send(orderData);
@@ -33,6 +35,7 @@ describe('Sender Order Email',() => {
     })
 
     it('should expect failed transporter response', async () => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         jest.spyOn(senderOrder as any, 'makeTransport').mockResolvedValue(null);
         const sended = await senderOrder.send(orderData);
         const sender_response: SenderResponse = {
@@ -45,8 +48,10 @@ describe('Sender Order Email',() => {
         const transporter = TransporterFixture();
         
         jest.spyOn(transporter,'sendMail').mockResolvedValue(SentMessageFixture());
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         jest.spyOn(senderOrder as any, 'makeTransport').mockResolvedValue(transporter);
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         jest.spyOn(senderOrder as any,'sendOrderToCompany').mockResolvedValue(false);
         const sended = await senderOrder.send(orderData);
         const sender_response: SenderResponse = {
