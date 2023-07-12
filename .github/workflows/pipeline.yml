@@ -11,13 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@master
+        uses: actions/checkout@v3
       - name: Install Dependencies
         run: npm install
       - name: Build
         run: npx nx build admin
       - name: Archive Production Artifact
-        uses: actions/upload-artifact@master
+        uses: actions/upload-artifact@v3
         with:
           name: dist
           path: admin-build
@@ -27,14 +27,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@master
+        uses: actions/checkout@v3
       - name: Download Artifact
-        uses: actions/download-artifact@master
+        uses: actions/download-artifact@v3
         with:
           name: dist
           path: admin-build
       - name: Deploy to Firebase
-        uses: joinflux/firebase-tools@master
+        uses: joinflux/firebase-tools@v3
         with:
           args: deploy --only hosting
         env:
