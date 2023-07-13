@@ -11,7 +11,7 @@ import Loader from "../../Loader";
 import { OrderObserver } from "./classes/OrdersObserver.class";
 import FilterOrders from "./utils/filterOrders.util";
 import AddOrderObserver from "./utils/AddOrderObserver";
-import OrderUpdateConfirmationModal from "../../OrderUpdateConfirmationModal";
+import OrderUpdateConfirmationModal from "./OrderUpdateConfirmationModal";
 
 
 
@@ -24,6 +24,7 @@ export default function Orders(props: { orders_status: OrderStatus}) {
     const [onLoad,setOnLoad] = useState<boolean>(false);
     const [toastText, setToastText] = useState<string>('');
     const [currentOrder, setCurrentOrder] = useState<OrderInterface | null>(null);
+    const [nextStatus, setNextStatus] = useState<OrderStatus>(OrderStatus.ON_PROGRESS);
 
     
     const observerRef = useRef(
@@ -59,16 +60,16 @@ export default function Orders(props: { orders_status: OrderStatus}) {
     return (
         <div>
             
-            <OrderUpdateConfirmationModal currentOrder={currentOrder} setCurrentOrder={setCurrentOrder}/>
+            <OrderUpdateConfirmationModal next_status={nextStatus} currentOrder={currentOrder} setCurrentOrder={setCurrentOrder}/>
             {
-                toastText.length > 0 ? <ToastContainer text={toastText}/>  : <></>
+                toastText.length > 0 ? <ToastContainer text={toastText}/>  : <div></div>
             }
             <PageHeader  icon={faBell} header={props.orders_status}/>
             {
                 onLoad ?
                 <LoaderContainer/>
                 :
-                ( orders.length ? <OrdersContainer setCurrentOrder={setCurrentOrder} orders={displayedOrders}/> : <EmptyOrdersContainer/>   )
+                ( orders.length ? <OrdersContainer setNextStatus={setNextStatus} setCurrentOrder={setCurrentOrder} orders={displayedOrders}/> : <EmptyOrdersContainer/>   )
             }
         </div>
     )
@@ -104,7 +105,8 @@ function EmptyOrdersContainer() {
 
 function OrdersContainer(props: {
     orders: OrderInterface[],
-    setCurrentOrder: React.Dispatch<React.SetStateAction<OrderInterface | null>>
+    setCurrentOrder: React.Dispatch<React.SetStateAction<OrderInterface | null>>,
+    setNextStatus: React.Dispatch<React.SetStateAction<OrderStatus>>
 }) {
     return (
         <div>
@@ -114,7 +116,7 @@ function OrdersContainer(props: {
             </div>*/
             }
             <div className="p-8 flex flex-col gap-6">
-                {props.orders.map((order, index) => <Order setCurrentOrder={props.setCurrentOrder} key={`order-${index}`} order={order}/>)}
+                {props.orders.map((order, index) => <Order setNextStatus={props.setNextStatus} setCurrentOrder={props.setCurrentOrder} key={`order-${index}`} order={order}/>)}
             </div>
         </div>
     );

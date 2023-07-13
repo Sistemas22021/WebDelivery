@@ -3,9 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { OrderStatus } from "../pages/Orders/enums/OrderStatus.enum";
 import React, { useEffect, useState } from "react";
 
-import { SidebarLinkObserver } from "../pages/Orders/classes/SideBarLinkObserver.class";
-
-import { NOTIFIER } from "../pages/Orders/classes/OrdersNotifier.class";
+import { initializeObserver } from "./utils/observer.util";
 interface SidebarLinkProps {
     href: string, 
     icon: IconDefinition, 
@@ -13,15 +11,6 @@ interface SidebarLinkProps {
     setOrderStatus: React.Dispatch<React.SetStateAction<OrderStatus>>,
     order_status: OrderStatus,
     observer_id: string;
-}
-
-function initializeObserver(
-    order_status: OrderStatus,
-    setCount: React.Dispatch<React.SetStateAction<number>>,
-    key: string
-) {
-    const observer = new SidebarLinkObserver(order_status,setCount,key);
-    NOTIFIER.attach(observer);
 }
 
 export default function SidebarLink(props: SidebarLinkProps) {
