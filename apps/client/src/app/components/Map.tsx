@@ -19,9 +19,11 @@ const Map = () => {
   }, []);
 
   return (
-    <>
-    <div id="map" className=" rounded h-2/3 mx-2 "> <h2 className='mb-2'> Los Pollos Hermanos 🍗 </h2> </div>
-    </>
+    <div id="map" className=" rounded h-2/3 mx-2 "> 
+      <h2 className='mb-2'>
+        Los Pollos Hermanos <span role="img" aria-labelledby=''> 🍗 </span> 
+      </h2> 
+    </div>
   );
 };
 

@@ -2,7 +2,8 @@ import logo from '../../assets/img/p_2.png';
 import { useTranslation } from 'react-i18next';
 
 const NavBar = () => {
-  const [t, i18n] = useTranslation('global');
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_,i18n] = useTranslation('global');
 
   return (
     <>
@@ -26,20 +27,20 @@ const NavBar = () => {
                 />{' '}
               </svg>
             </label>
-            <ul
+            {/*<ul
               tabIndex={0}
               className="menu menu-compact dropdown-content mt-2 p-2 shadow bg-neutral rounded-box w-50"
             >
               <li>
-                <a className="rounded"> {t('navbar.home')} </a>{' '}
+                <a className="rounded"> {translator('navbar.home')} </a>{' '}
               </li>
               <li>
-                <a className="rounded">{t('navbar.products')}</a>{' '}
+                <a className="rounded">{translator('navbar.products')}</a>{' '}
               </li>
               <li>
-                <a className="rounded">{t('navbar.contact')}</a>
+                <a className="rounded">{translator('navbar.contact')}</a>
               </li>
-            </ul>
+            </ul>*/}
           </div>
           <div
             className="tooltip w-28 tooltip-right"
@@ -51,23 +52,27 @@ const NavBar = () => {
 
         {/* Menu desktop */}
         <div className=" navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal">
+          {/*<ul className="menu menu-horizontal">
             <li>
-              <a className="rounded"> {t('navbar.home')} </a>{' '}
+              <a className="rounded"> {translator('navbar.home')} </a>{' '}
             </li>
             <li>
-              <a className="rounded">{t('navbar.products')}</a>{' '}
+              <a className="rounded">{translator('navbar.products')}</a>{' '}
             </li>
             <li>
-              <a className="rounded">{t('navbar.contact')}</a>
+              <a className="rounded">{translator('navbar.contact')}</a>
             </li>
-          </ul>
+          </ul>*/}
         </div>
 
         <div className="navbar-end">
           <ul className="menu menu-horizontal bg-base-100 rounded-box ">
-          <li><a className="tooltip" data-tip="England" onClick={() => i18n.changeLanguage('en')} >🇬🇧</a></li>
-          <li><a className="tooltip" data-tip="Espanol" onClick={() => i18n.changeLanguage('es')}>🇪🇸</a></li>
+            <li>
+              <span role="img" aria-labelledby='' className="tooltip" data-tip="England" onClick={() => i18n.changeLanguage('en')} >🇬🇧</span>
+            </li>
+            <li>
+              <span role="img" aria-labelledby='' className="tooltip" data-tip="Espanol" onClick={() => i18n.changeLanguage('es')}>🇪🇸</span>
+            </li>
           </ul>
         </div>
       </div>

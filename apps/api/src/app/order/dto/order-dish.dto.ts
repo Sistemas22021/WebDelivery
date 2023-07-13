@@ -1,10 +1,16 @@
-import {IsNumber, IsPositive } from "class-validator";
+import { ApiProperty } from "@nestjs/swagger";
+import {IsPositive } from "class-validator";
 
 export class OrderDishDto {
 
 
-    @IsNumber()
-    dish_id: number;
+
+
+    @ApiProperty({example: 1})    
+    dish_id: number | string;
+
+
+    @ApiProperty({example: 5})
     @IsPositive()
     count: number;
 }
