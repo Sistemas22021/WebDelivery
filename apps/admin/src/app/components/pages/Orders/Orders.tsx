@@ -1,6 +1,5 @@
 import { faBell } from "@fortawesome/free-solid-svg-icons";
 import PageHeader from "../PageHeader";
-import SearchBox from "../../utils/SearchBox";
 
 import Order from "./Order";
 import { useEffect, useRef, useState } from "react";
