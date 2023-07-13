@@ -75,8 +75,10 @@ export class OrderService {
     async updateOrderStatus(status: UpdateOrderStatusDto) {
         const order_exists = await this.orderRepository.findOneBy({id: status.order_id});
         
-        if (!order_exists)
+        if (!order_exists){
+            this.eventEmitter.emit('order.sync',status.order_id);
             throw new NotFoundException();
+        }
 
         const order = MapOrderFromEntity(order_exists);
 

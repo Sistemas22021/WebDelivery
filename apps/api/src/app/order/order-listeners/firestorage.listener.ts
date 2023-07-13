@@ -42,4 +42,8 @@ export class OrderFireStorageListener {
             Logger.log("Hubo un error actualizando el registro en fire storage");
         }   
     }
+    @OnEvent('order.sync')
+    async deleteOrderIfExistsById(id: string) {
+        await this.orderCollection.delete(id);
+    }
 }
