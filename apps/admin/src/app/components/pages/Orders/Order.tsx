@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { OrderStatus } from "./enums/OrderStatus.enum";
 import OrderInterface from "./interfaces/order.interface";
 
@@ -7,11 +6,21 @@ import OrderInterface from "./interfaces/order.interface";
 export default function Order(props: 
     { 
     order: OrderInterface, 
-    setCurrentOrder: React.Dispatch<React.SetStateAction<OrderInterface | null>>
+    setCurrentOrder: React.Dispatch<React.SetStateAction<OrderInterface | null>>,
+    setNextStatus: React.Dispatch<React.SetStateAction<OrderStatus>>
 }) {
 
    
-    function onClickHandler() {
+    function onUpdateOrderHandler() {
+        if (props.order.status === OrderStatus.PENDING)
+            props.setNextStatus(OrderStatus.ON_PROGRESS)
+        if (props.order.status === OrderStatus.ON_PROGRESS)
+            props.setNextStatus(OrderStatus.COMPLETED)
+
+        props.setCurrentOrder(props.order);
+    }
+    function onCancelOrderHandler() {
+        props.setNextStatus(OrderStatus.CANCELLED);
         props.setCurrentOrder(props.order);
     }
 
@@ -19,12 +28,16 @@ export default function Order(props:
         <div className="border-gray-200 border-2 p-6 xl:w-3/4 shadow-2xl rounded-md">
             
             <div className="flex flex-col  lg:flex-row gap-4">
-                <div className="flex-1 flex flex-row lg:flex-row lg:justify-star">
+                <div className="flex-1 flex flex-col gap-4">
                     {
                         props.order.status === OrderStatus.PENDING
-                        ? <button onClick={onClickHandler} className='btn btn-wide btn-warning'>Atender</button>
-                        : <button onClick={onClickHandler} className='btn btn-wide btn-info'>Completar</button>
+                        ? <button onClick={onUpdateOrderHandler} className='btn btn-wide btn-warning'>Atender</button>
+                        : <button onClick={onUpdateOrderHandler} className='btn btn-wide btn-info'>Completar</button>
                     }
+
+                    <div>
+                        <button onClick={onCancelOrderHandler} className='btn btn-sm btn-accent'>Cancelar</button>
+                    </div>
                 </div>
                 <div className="flex flex-row justify-center">
                     {
