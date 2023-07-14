@@ -24,13 +24,13 @@ jobs:
             - name: Install Dependencies
               run: npm ci
             - name: "Prueba de lint"
-              run: npx nx affected -t lint --parallel=3
+              run: npx nx affected -t lint
             - name: "Pruebas unitarias"
-              run: npx nx affected -t test --parallel=3
+              run: npx nx affected -t test
             - name: "Construccion de aplicacion"
-              run: npx nx affected -t build --parallel=3
+              run: npx nx affected -t build
             - name: "Despliegue de aplicacion"
-              run: npx nx affected -t deploy --parallel=3
+              run: npx nx affected -t deploy
               env:
                 NX_FIREBASE_APP_ID: ${{secrets.FIREBASE_APP_ID}}
                 NX_FIREBASE_AUTH_DOMAIN: ${{secrets.FIREBASE_AUTH_DOMAIN}}
@@ -40,6 +40,7 @@ jobs:
                 NX_FIREBASE_PROJECT_ID: ${{secrets.FIREBASE_PROJECT_ID}}
                 NX_FIREBASE_STORAGE_BUCKET: ${{secrets.FIREBASE_STORAGE_BUCKET}}
                 FIREBASE_TOKEN: ${{secrets.FIREBASE_TOKEN_PRD}}
+                NX_NO_CLOUD: true
 
 
               
