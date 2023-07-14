@@ -65,3 +65,7 @@ sin embargo en el directorio raiz, se encuentra la configuracion para el desplie
 este puede ser configurado para cualquier host con alguna cuenta especifica, solo debe configurarse y asignarse como carpeta de construccion
 build, siempre y cuando se ejecute el comando de firebase para inicializar la configuracion del mismo, dentro de la carpeta /<proyecto>-build
 
+# Pruebas
+para realizar las pruebas correspondientes a cada proyecto se ejecutan los comandos
+`npx nx test <nombre_proyecto>`
+
