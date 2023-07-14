@@ -6,7 +6,15 @@ on:
             - test-pipeline
 
 
-
+env:
+    NX_FIREBASE_APP_ID: ${{secrets.FIREBASE_APP_ID}}
+    NX_FIREBASE_AUTH_DOMAIN: ${{secrets.FIREBASE_AUTH_DOMAIN}}
+    NX_FIREBASE_KEY: ${{secrets.FIREBASE_KEY}}
+    NX_FIREBASE_MEASUREMENT_ID: ${{secrets.FIREBASE_MEASUREMENT_ID}}
+    NX_FIREBASE_MESSAGING_SENDER_ID: ${{secrets.FIREBASE_MESSAGING_SENDER_ID}}
+    NX_FIREBASE_PROJECT_ID: ${{secrets.FIREBASE_PROJECT_ID}}
+    NX_FIREBASE_STORAGE_BUCKET: ${{secrets.FIREBASE_STORAGE_BUCKET}}
+    FIREBASE_TOKEN: ${{secrets.FIREBASE_TOKEN_PRD}}
 jobs:
     main:
         name: "Pruebas y construccion de los proyectos afectados"
@@ -24,23 +32,14 @@ jobs:
             - name: Install Dependencies
               run: npm ci
             - name: "Prueba de lint"
-              run: npx nx affected -t lint
+              run: npx nx affected -t lint --no-cloud
             - name: "Pruebas unitarias"
-              run: npx nx affected -t test
+              run: npx nx affected -t test --no-cloud
             - name: "Construccion de aplicacion"
-              run: npx nx affected -t build
+              run: npx nx affected -t build --no-cloud
             - name: "Despliegue de aplicacion"
-              run: npx nx affected -t deploy
-              env:
-                NX_FIREBASE_APP_ID: ${{secrets.FIREBASE_APP_ID}}
-                NX_FIREBASE_AUTH_DOMAIN: ${{secrets.FIREBASE_AUTH_DOMAIN}}
-                NX_FIREBASE_KEY: ${{secrets.FIREBASE_KEY}}
-                NX_FIREBASE_MEASUREMENT_ID: ${{secrets.FIREBASE_MEASUREMENT_ID}}
-                NX_FIREBASE_MESSAGING_SENDER_ID: ${{secrets.FIREBASE_MESSAGING_SENDER_ID}}
-                NX_FIREBASE_PROJECT_ID: ${{secrets.FIREBASE_PROJECT_ID}}
-                NX_FIREBASE_STORAGE_BUCKET: ${{secrets.FIREBASE_STORAGE_BUCKET}}
-                FIREBASE_TOKEN: ${{secrets.FIREBASE_TOKEN_PRD}}
-                NX_NO_CLOUD: true
+              run: npx nx affected -t deploy --no-cloud
+              
 
 
               

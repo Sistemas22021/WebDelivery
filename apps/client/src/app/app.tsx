@@ -4,6 +4,8 @@ import '../assets/css/app.css'
 import Footer from './components/Footer';
 
 import Home from "./components/Home"
+
+console.log();
 export function App() {
 
   
