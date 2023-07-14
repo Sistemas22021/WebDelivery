@@ -69,3 +69,10 @@ build, siempre y cuando se ejecute el comando de firebase para inicializar la co
 para realizar las pruebas correspondientes a cada proyecto se ejecutan los comandos
 `npx nx test <nombre_proyecto>`
 
+#Despliegue
+Adicionalmente se creo un comando para realizar el despliegue de cada frontend especifico
+utilizando el comando `npx nx deploy <nombre_proyecto>`, se intentara desplegar con la configuracion de firebase proporcionada
+el contenido dentro de la carpeta `/<nombre_proyecto>/build`
+Debe tomarse en cuenta que para hacer uso correcto de este comando, debe ejecutarse primero el build de cada aplicacion correspondiente
+y crear una variable de entorno con el nombre `FIREBASE_TOKEN=<contenido>` ya que este sera el valor que tomara para autenticarse con firebase.
+
