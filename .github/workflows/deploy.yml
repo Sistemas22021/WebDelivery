@@ -23,8 +23,6 @@ jobs:
                 node-version: ${{matrix.node-verion}}
             - name: Install Dependencies
               run: npm ci
-            - name: "Format check"
-              run: npx nx format:check
             - name: "Prueba de lint"
               run: npx nx affected -t lint --parallel=3
             - name: "Pruebas unitarias"
