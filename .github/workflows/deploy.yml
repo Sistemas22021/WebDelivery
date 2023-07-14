@@ -25,10 +25,15 @@ jobs:
                 node-verion: [18.16.1]
         steps:
             - uses: actions/checkout@v3
+              with:
+                fetch-depth: 0
             - name: use Node.js ${{ matrix.node-verion }}
               uses: actions/setup-node@v3
               with:
                 node-version: ${{matrix.node-verion}}
+
+            - name: 'test'
+              run: git branch --track test-pipeline origin/test-pipeline
             - name: Install Dependencies
               run: npm ci
             - name: "Prueba de lint"

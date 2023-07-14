@@ -5,7 +5,6 @@ import Footer from './components/Footer';
 
 import Home from "./components/Home"
 
-console.log();
 export function App() {
 
   
