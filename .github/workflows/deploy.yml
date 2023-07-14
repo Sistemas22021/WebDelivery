@@ -2,7 +2,17 @@ name: deploy-test
 on:
   push:
       branches:
-        - 'develop'
+        - 'test'
+
+env:
+    NX_FIREBASE_APP_ID: ${{secrets.FIREBASE_APP_ID}}
+    NX_FIREBASE_AUTH_DOMAIN: ${{secrets.FIREBASE_AUTH_DOMAIN}}
+    NX_FIREBASE_KEY: ${{secrets.FIREBASE_KEY}}
+    NX_FIREBASE_MEASUREMENT_ID: ${{secrets.FIREBASE_MEASUREMENT_ID}}
+    NX_FIREBASE_MESSAGING_SENDER_ID: ${{secrets.FIREBASE_MESSAGING_SENDER_ID}}
+    NX_FIREBASE_PROJECT_ID: ${{secrets.FIREBASE_PROJECT_ID}}
+    NX_FIREBASE_STORAGE_BUCKET: ${{secrets.FIREBASE_STORAGE_BUCKET}}
+    FIREBASE_TOKEN: ${{secrets.FIREBASE_TOKEN_PRD}}
 
 jobs:
   nest:
@@ -23,11 +33,11 @@ jobs:
         run: npm install
         
       - name: Testing
-        run: npx nx test api
+        run: npx nx test api --no-cloud
       - name: Prueba de linting
-        run: npx nx lint api
+        run: npx nx lint api --no-cloud
       - name: Construccion de la aplicacion
-        run: npx nx build api
+        run: npx nx build api --no-cloud
   react-clientes:
     name: "Pruebas, linting y colnstruccion del frontend de clientes."
     runs-on: ubuntu-latest
@@ -44,18 +54,15 @@ jobs:
       - name: Install Dependencies  
         run: npm install
       - name: Testing
-        run: npx nx test client
+        run: npx nx test client --no-cloud
       - name: Prueba de linting
-        run: npx nx lint client
+        run: npx nx lint client --no-cloud
       - name: Construccion de la aplicacion
-        run: npx nx build client
+        run: npx nx build client --no-cloud
       - name: Dependencia para hacer deploy en firebase
         run: npm install -g firebase-tools 
       - name: Despliegue a firebase 
-        run: |
-          cd client-build && firebase deploy --token $FIREBASE_TOKEN
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN_PRD }}
+        run: npx nx deploy admin --no-cloud
   react-administrador:
     name: "Pruebas, linting y colnstruccion del frontend de administrador."
     runs-on: ubuntu-latest
@@ -72,15 +79,13 @@ jobs:
       - name: Install Dependencies  
         run: npm install
       - name: Testing
-        run: npx nx test admin
+        run: npx nx test admin --no-cloud
       - name: Prueba de linting
-        run: npx nx lint admin
+        run: npx nx lint admin --no-cloud
       - name: Construccion de la aplicacion
-        run: npx nx build admin
+        run: npx nx build admin --no-cloud
       - name: Dependencia para hacer deploy en firebase
         run: npm install -g firebase-tools 
       - name: Despliegue a firebase
-        run: |
-          cd admin-build && firebase deploy --token ${{ secrets.FIREBASE_TOKEN_PRD }}
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN_PRD }}
+        run : npx nx deploy admin
+       
