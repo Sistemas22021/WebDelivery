@@ -39,7 +39,7 @@ jobs:
       - name: Construccion de la aplicacion
         run: npx nx build api --no-cloud
   react-clientes:
-    name: "Pruebas, linting y colnstruccion del frontend de clientes."
+    name: "Pruebas, linting y construccion del frontend de clientes."
     runs-on: ubuntu-latest
 
     strategy:
@@ -65,7 +65,7 @@ jobs:
       - name: Despliegue a firebase 
         run: npx nx deploy client --no-cloud
   react-administrador:
-    name: "Pruebas, linting y colnstruccion del frontend de administrador."
+    name: "Pruebas, linting y construccion del frontend de administrador."
     runs-on: ubuntu-latest
 
     strategy:
