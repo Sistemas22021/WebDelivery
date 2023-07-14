@@ -4,6 +4,9 @@
   "sourceRoot": "apps/client/src",
   "projectType": "application",
   "targets": {
+    "deploy":{
+      "command": "cd client-build/build && firebase deploy --token $FIREBASE_TOKEN"
+    },
     "build": {
       "executor": "@nx/vite:build",
       "outputs": ["{options.outputPath}"],

@@ -4,6 +4,10 @@
   "sourceRoot": "apps/admin/src",
   "projectType": "application",
   "targets": {
+
+    "deploy":{
+      "command": "cd admin-build/build && firebase deploy --token $FIREBASE_TOKEN"
+    },
     "build": {
       "executor": "@nx/webpack:webpack",
       "outputs": ["{options.outputPath}"],

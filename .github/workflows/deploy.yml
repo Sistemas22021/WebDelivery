@@ -1,0 +1,47 @@
+name: deploy
+
+on:
+    push:
+        branches:
+            - test-pipeline
+
+
+
+jobs:
+    main:
+        name: "Pruebas y construccion de los proyectos afectados"
+        runs-on: ubuntu-latest
+        
+        strategy:
+            matrix:
+                node-verion: [18.16.1]
+        steps:
+            - uses: actions/checkout@v3
+            - name: use Node.js ${{ matrix.node-verion }}
+              uses: actions/setup-node@v3
+              with:
+                node-version: ${{matrix.node-verion}}
+            - name: Install Dependencies
+              run: npm ci
+            - name: "Format check"
+              run: npx nx format:check
+            - name: "Prueba de lint"
+              run: npx nx affected -t lint --parallel=3
+            - name: "Pruebas unitarias"
+              run: npx nx affected -t test --parallel=3
+            - name: "Construccion de aplicacion"
+              run: npx nx affected -t build --parallel=3
+            - name: "Despliegue de aplicacion"
+              run: npx nx affected -t deploy --parallel=3
+              env:
+                NX_FIREBASE_APP_ID: ${{secrets.FIREBASE_APP_ID}}
+                NX_FIREBASE_AUTH_DOMAIN: ${{secrets.FIREBASE_AUTH_DOMAIN}}
+                NX_FIREBASE_KEY: ${{secrets.FIREBASE_KEY}}
+                NX_FIREBASE_MEASUREMENT_ID: ${{secrets.FIREBASE_MEASUREMENT_ID}}
+                NX_FIREBASE_MESSAGING_SENDER_ID: ${{secrets.FIREBASE_MESSAGING_SENDER_ID}}
+                NX_FIREBASE_PROJECT_ID: ${{secrets.FIREBASE_PROJECT_ID}}
+                NX_FIREBASE_STORAGE_BUCKET: ${{secrets.FIREBASE_STORAGE_BUCKET}}
+                FIREBASE_TOKEN: ${{secrets.FIREBASE_TOKEN_PRD}}
+
+
+              
