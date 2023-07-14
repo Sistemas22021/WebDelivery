@@ -4,7 +4,7 @@ Aplicacion que tiene como objetivo agilizar el proceso de atencion a los cliente
 
 Esta compuesto por 3 aplicaciones 
 
-1. Backend en NestJS
+1. Backend en NestJS TS
 2. Frontend en ReactJS como formulario donde los clientes realizaran los pedios
 3. Frontend en ReactJS como panel administrativo que le permitira a los encargados atender cada orden que va entrando.
 
