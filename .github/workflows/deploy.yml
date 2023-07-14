@@ -87,5 +87,5 @@ jobs:
       - name: Dependencia para hacer deploy en firebase
         run: npm install -g firebase-tools 
       - name: Despliegue a firebase
-        run : npx nx deploy admin
+        run : npx nx deploy admin --no-cloud
        
