@@ -31,7 +31,8 @@ const [translator] = useTranslation("global");
           </div>
         </div>
         <div>
-          <p> {translator("footer.copyr")}  © 2023 - UDONE - VENEZUELA ❤️</p>
+          <p> {translator("footer.copyr")}  © 2023 - UDONE - VENEZUELA ❤️ </p>
+          <p>  Ha sido revisada la ejecucion del pipeline </p>
         </div>
       </footer>
     </>
